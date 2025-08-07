@@ -1,0 +1,114 @@
+\chapter{System Overview}
+This chapter introduces a thorough analysis of a system for converting textual information extracted from images into visuals produced through artificial intelligence, supported through an optimized automation pipeline. The system utilizes Tesseract OCR, Natural Language Processing (NLP), and image generation models to convert uploaded photos into enriched textual prompts, then generating relevant contextual images through an optimized model, FLUX. The key objective is to maximize efficiency in the overall processing, from intake of the initial image to output through AI-created visuals, with high accuracy and strong processing at each level.
+
+\section{System Scope and Context}
+
+The architectural structure of the system is developed in a standalone application for use with macOS, consisting of a mix of self-contained modules and integration with external APIs for efficient optimizing prompts and producing images. It consists of:
+
+\subsection*{Internal Modules}
+\begin{itemize}
+    \item \textbf{Image Preprocessing and OCR Module}: Uses an optimized self-trained version of Tesseract OCR for extraction of textual information from uploaded photos.
+    \item \textbf{Text Optimization Module}: Interfaces with the ChatGPT API for processing and optimizing extracted information into a coherent prompt for use with the image generation model.
+    \item \textbf{Image Creation Module}: Interfaces with FLUX, an image generation model, for creating images through optimized prompt.
+    \item \textbf{User Interface (UI) Module}: Contains an interactive UI compatible with macOS for input of photos, output, and real-time observation of processing operations.
+\end{itemize}
+
+\subsection*{External Entities}
+\begin{itemize}
+    \item \textbf{ChatGPT API}: With the role of converting unrefined output received through OCR to an optimized request.
+    \item \textbf{FLUX API}: Enables creation of an image according to the given prompt.
+\end{itemize}
+
+The participants in this system include the end-user, who accesses the application through a graphical user interface, and external entities or APIs providing natural language processing (NLP) and image creation capabilities.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{system_context_diagram.png} % Replace with actual figure file
+    \caption{System Context Diagram}
+    \label{fig:system_context}
+\end{figure}
+
+\section{System Architecture}
+
+The system's architectural structure consists of layers and modules, with each module servicing a specific part of the overall function. The key layers and respective roles are described below:
+
+\subsection*{1. User Interface Layer}
+\textbf{Role:}
+\begin{itemize}
+    \item Enable selection of an image for processing by a user.
+    \item Showcase source image for OCR extracted text, processed prompt, and generated image.
+    \item Handle button clicks and notifications.
+\end{itemize}
+\textbf{Technology:}
+\begin{itemize}
+    \item Implemented using Cocoa frameworks in Objective-C, with additions such as \textit{NSImageView} and \textit{IKImageView} for visualization of an image.
+\end{itemize}
+
+\subsection*{2. OCR and Image Preprocessing Module}
+\textbf{Role:}
+\begin{itemize}
+    \item Convert uploaded image into forms compatible with Tesseract OCR.
+    \item Execute preprocessing techniques such as filtering out noise, contrast improvement, adaptive threshold, and skew fixing.
+    \item Extract text information in an image with a custom Tesseract engine.
+\end{itemize}
+
+\subsection*{3. Prompt Generation Module}
+\textbf{Role:}
+\begin{itemize}
+    \item Organize raw output of OCR into a meaningful and coherent prompt.
+    \item Utilize the ChatGPT API for processing and enriching a text for its future use in generating an image.
+\end{itemize}
+
+\subsection*{4. AI Image Generation Module}
+\textbf{Role:}
+\begin{itemize}
+    \item Obtain an optimized prompt and make an external request for an image creation API.
+    \item Deal with the asynchronous behavior of generating an image, including polling for a result and downloading the generated image.
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{system_architecture_diagram.png} % Replace with actual figure file
+    \caption{System Architecture Diagram}
+    \label{fig:system_architecture}
+\end{figure}
+
+\section{Use Cases and Interaction Sequences}
+
+The system supports a range of use cases, each defining a specific sequence of interaction between the system and the user:
+
+\subsection*{1. Upload of an Image and OCR Processing}
+\begin{itemize}
+    \item User uploads an image with textual information in it. The system performs several preprocessing operations in preparation for OCR processing in an attempt to extract text.
+\end{itemize}
+
+\subsection*{2. Prompt Optimization}
+\begin{itemize}
+    \item Unrefined output text generated through the OCR module is sent to the ChatGPT API in an attempt to generate an optimized prompt.
+    \item Alternative: In case of an API failure or a timeout, the system informs the user and provides unprocessed text in a fallback prompt form.
+\end{itemize}
+
+\subsection*{3. Generation of an Image}
+\begin{itemize}
+    \item With the optimized prompt, the system invokes the AI picture creation API. It then polls for processing completion and retrieves the generated picture in its final form.
+    \item Alternative: In case of failures at the API (e.g., rate limiting, lack of credits), relevant error messages are displayed, and options for reattempting could be supported.
+\end{itemize}
+
+\section{Implementation Environment}
+
+The system is implemented as a native application for macOS using Objective-C and Objective-C++ for native integration with C++ libraries, such as Tesseract. The key aspects of the implementation environment include:
+
+\subsection*{Operating System}
+\begin{itemize}
+    \item The application runs under macOS, leveraging the Cocoa environment to support user interface items and system-level operations.
+\end{itemize}
+
+\subsection*{Programming Languages}
+\begin{itemize}
+    \item Objective-C is used as the base language for both the user interface and high-level application behavior.
+    \item Objective-C++ enables native integration with C++ libraries for performance-critical operations such as OCR.
+\end{itemize}
+
+\section{Conclusion}
+
+In conclusion, the system forms an overall structure that integrates sophisticated character recognition techniques, enriched language processing for effective prompt creation, and artificial intelligence-powered image generation in an efficient pipeline. All parts have been carefully crafted to serve specific roles synergistically. With its module-based structure and effective management of errors, the system ensures ease, maintainability, and usability. This system overview will form the basis for the following chapters, in which specific aspects such as OCR, generating prompts, and generation images will be discussed in detail.
