@@ -1,6 +1,6 @@
 \chapter{System Overview and Architecture}
 
-This chapter presents the end-to-end system that transforms text contained in images into high-quality visual outputs by integrating custom-trained Tesseract OCR, image preprocessing, locally deployed large language modeling, and state-of-the-art text-to-image generation. The architecture is driven by practical constraints of privacy, latency, and robustness on commodity macOS hardware, while ensuring modularity for experimentation and rigorous evaluation. The design choices are grounded in prior advances in OCR and sequence modeling \cite{smith2007overview, graves2006connectionist, hochreiter1997long}, multimodal and LLM research \cite{qin2024comprehensive, jin2024mm}, as well as recent progress in open-source LLM deployment \cite{openai2025gptoss} and diffusion-based image synthesis \cite{blackforestlabs2024flux, rombach2025flux}.
+This chapter presents the end-to-end system that transforms text contained in images into high-quality visual outputs by integrating custom-trained Tesseract OCR, image preprocessing, locally deployed large language model, and state-of-the-art text-to-image generation. The architecture is driven by practical constraints of privacy, latency, and robustness on commodity macOS hardware, while ensuring modularity for experimentation and rigorous evaluation. The design choices are grounded in prior advances in OCR and sequence model \cite{smith2007overview, graves2006connectionist, hochreiter1997long}, multimodal and LLM research \cite{qin2024comprehensive, jin2024mm}, as well as recent progress in open-source LLM deployment \cite{openai2025gptoss} and diffusion-based image synthesis \cite{blackforestlabs2024flux, rombach2025flux}.
 
 \section{Design Goals and Constraints}
 
@@ -43,7 +43,7 @@ Preprocessing is parameterized to accommodate heterogeneous inputs encountered i
     Bilateral/median filtering & Suppress noise while preserving edges & kernel 3--7 px \\
     Adaptive thresholding & Robust binarization under uneven lighting & window 11--31, C in [2,10] \\
     Morphological open/close & Fill gaps, remove speckles & kernel 2--5 px \\
-    Deskew and rectification & Correct perspective and rotation & Hough-based, max tilt $\pm$5$^\circ$ \\
+  Deskew and rectification & Correct perspective and rotation & Hough-based, max tilt $\pm 5^{\circ}$ \\
     Line normalization & Stabilize height and baseline drift & target x-height 24--40 px \\
     \hline
   \end{tabular}
@@ -97,4 +97,4 @@ All text-bearing operations (preprocessing, OCR, normalization, and prompt const
 
 \section{Summary}
 
-The presented architecture composes domain-optimized OCR with local language modeling and modern image synthesis into a cohesive, privacy-preserving system. Through modular boundaries, asynchronous orchestration, and careful co-design of preprocessing and recognition, the pipeline supports both controlled evaluation and practical interactive use. Subsequent chapters detail component-level implementations (Chapters~4--6) and provide comprehensive quantitative and qualitative assessment (Chapter~7).
+The presented architecture composes domain-optimized OCR with local language model and modern image synthesis into a cohesive, privacy-preserving system. Through modular boundaries, asynchronous orchestration, and careful co-design of preprocessing and recognition, the pipeline supports both controlled evaluation and practical interactive use. Subsequent chapters detail component-level implementations (Chapters~4--6) and provide comprehensive quantitative and qualitative assessment (Chapter~7).

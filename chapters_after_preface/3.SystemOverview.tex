@@ -1,114 +1,100 @@
-\chapter{System Overview}
-This chapter introduces a thorough analysis of a system for converting textual information extracted from images into visuals produced through artificial intelligence, supported through an optimized automation pipeline. The system utilizes Tesseract OCR, Natural Language Processing (NLP), and image generation models to convert uploaded photos into enriched textual prompts, then generating relevant contextual images through an optimized model, FLUX. The key objective is to maximize efficiency in the overall processing, from intake of the initial image to output through AI-created visuals, with high accuracy and strong processing at each level.
+\chapter{System Overview and Architecture}
 
-\section{System Scope and Context}
+This chapter presents the end-to-end system that transforms text contained in images into high-quality visual outputs by integrating custom-trained Tesseract OCR, image preprocessing, locally deployed large language model, and state-of-the-art text-to-image generation. The architecture is driven by practical constraints of privacy, latency, and robustness on commodity macOS hardware, while ensuring modularity for experimentation and rigorous evaluation. The design choices are grounded in prior advances in OCR and sequence model \cite{smith2007overview, graves2006connectionist, hochreiter1997long}, multimodal and LLM research \cite{qin2024comprehensive, jin2024mm}, as well as recent progress in open-source LLM deployment \cite{openai2025gptoss} and diffusion-based image synthesis \cite{blackforestlabs2024flux, rombach2025flux}.
 
-The architectural structure of the system is developed in a standalone application for use with macOS, consisting of a mix of self-contained modules and integration with external APIs for efficient optimizing prompts and producing images. It consists of:
+\section{Design Goals and Constraints}
 
-\subsection*{Internal Modules}
-\begin{itemize}
-    \item \textbf{Image Preprocessing and OCR Module}: Uses an optimized self-trained version of Tesseract OCR for extraction of textual information from uploaded photos.
-    \item \textbf{Text Optimization Module}: Interfaces with the ChatGPT API for processing and optimizing extracted information into a coherent prompt for use with the image generation model.
-    \item \textbf{Image Creation Module}: Interfaces with FLUX, an image generation model, for creating images through optimized prompt.
-    \item \textbf{User Interface (UI) Module}: Contains an interactive UI compatible with macOS for input of photos, output, and real-time observation of processing operations.
-\end{itemize}
+The system is architected around four primary goals. First, it preserves data privacy by executing text recognition, language understanding, and prompt synthesis entirely on-device; no source text leaves the macOS host. Second, it pursues reliability and fidelity by combining advanced preprocessing with custom-trained OCR models tuned to the target domains \cite{esser2020improving}. Third, it provides responsive interactive use through asynchronous orchestration and streaming interfaces. Fourth, it is reproducible and extensible: all transformations are deterministic when desired (fixed seeds, versioned models), and subsystems can be swapped without cascading changes.
 
-\subsection*{External Entities}
-\begin{itemize}
-    \item \textbf{ChatGPT API}: With the role of converting unrefined output received through OCR to an optimized request.
-    \item \textbf{FLUX API}: Enables creation of an image according to the given prompt.
-\end{itemize}
+\section{End-to-End Pipeline}
 
-The participants in this system include the end-user, who accesses the application through a graphical user interface, and external entities or APIs providing natural language processing (NLP) and image creation capabilities.
+Figure~\ref{fig:pipeline-overview} summarizes the processing flow. Users acquire an image (screenshot or import). The Image Preprocessing and OCR subsystem performs adaptive enhancement and recognition with custom Tesseract models. The resulting text, together with document context, is transformed locally into a semantically rich, generation-ready prompt using a locally deployed GPT-OSS-20B model served by the Ollama runtime on macOS \cite{openai2025gptoss}. The prompt is then consumed by a FLUX-based image generation backend that returns one or more candidate images \cite{blackforestlabs2024flux, rombach2025flux}. Results and intermediate artifacts are persisted for auditability and downstream evaluation (Chapter~7).
 
-\begin{figure}[h]
-    \centering
-    \includegraphics{system_context_diagram.png} % Replace with actual figure file
-    \caption{System Context Diagram}
-    \label{fig:system_context}
+\begin{figure}[t]
+  \centering
+  % Placeholder block diagram; replace with final vector graphic during camera-ready
+  \fbox{\begin{minipage}[c][5.2cm][c]{0.92\linewidth}
+  \vspace{0.8em}\centering
+  \textbf{Pipeline Overview}\\[0.6em]
+  Image Acquisition \(\rightarrow\) Preprocessing \& OCR (custom Tesseract) \(\rightarrow\)
+  Local NLP (GPT-OSS-20B via Ollama) \(\rightarrow\) Prompted Image Generation (FLUX) \\
+  Orchestration, Caching, Error Handling, and UI span the pipeline.
+  \vspace{0.8em}
+  \end{minipage}}
+  \caption{High-level processing pipeline showing the flow from input image to synthesized image outputs with local privacy-preserving language processing and cloud-capable image generation.}
+  \label{fig:pipeline-overview}
 \end{figure}
 
-\section{System Architecture}
+\section{Image Preprocessing and OCR}
 
-The system's architectural structure consists of layers and modules, with each module servicing a specific part of the overall function. The key layers and respective roles are described below:
+Robust text extraction is the foundation of the pipeline. The OCR subsystem builds on Tesseract's modern LSTM-based recognizer \cite{smith2007overview, hochreiter1997long} and is strengthened with custom training for the target domains. Training uses curated corpora with realistic degradations and typography variations, balancing printed and handwritten styles, and leverages sequence learning techniques that align naturally with unsegmented text lines \cite{graves2006connectionist}. We adopt a co-design philosophy whereby preprocessing and recognition are optimized jointly: adaptive contrast enhancement, denoising, local thresholding, and perspective correction are selected to maximize character- and word-level accuracy for the trained models \cite{esser2020improving}.
 
-\subsection*{1. User Interface Layer}
-\textbf{Role:}
-\begin{itemize}
-    \item Enable selection of an image for processing by a user.
-    \item Showcase source image for OCR extracted text, processed prompt, and generated image.
-    \item Handle button clicks and notifications.
-\end{itemize}
-\textbf{Technology:}
-\begin{itemize}
-    \item Implemented using Cocoa frameworks in Objective-C, with additions such as \textit{NSImageView} and \textit{IKImageView} for visualization of an image.
-\end{itemize}
+Preprocessing is parameterized to accommodate heterogeneous inputs encountered in screenshots and document captures. Table~\ref{tab:preproc} outlines typical operators and ranges used during both training-time augmentation and inference-time enhancement. The goal is not merely to denoise, but to shape the input distribution to match the statistics seen by the custom recognizers.
 
-\subsection*{2. OCR and Image Preprocessing Module}
-\textbf{Role:}
-\begin{itemize}
-    \item Convert uploaded image into forms compatible with Tesseract OCR.
-    \item Execute preprocessing techniques such as filtering out noise, contrast improvement, adaptive threshold, and skew fixing.
-    \item Extract text information in an image with a custom Tesseract engine.
-\end{itemize}
+\begin{table}[t]
+  \centering
+  \caption{Preprocessing operators and representative parameterization used in training augmentation and inference-time enhancement. Ranges are design targets; measured effects are analyzed in Chapter~7.}
+  \label{tab:preproc}
+  \begin{tabular}{l l l}
+    \hline
+    Operator & Purpose & Representative setting \\
+    \hline
+    Adaptive contrast (CLAHE) & Improve local text/background separation & clip-limit 2.0--4.0 \\
+    Bilateral/median filtering & Suppress noise while preserving edges & kernel 3--7 px \\
+    Adaptive thresholding & Robust binarization under uneven lighting & window 11--31, C in [2,10] \\
+    Morphological open/close & Fill gaps, remove speckles & kernel 2--5 px \\
+  Deskew and rectification & Correct perspective and rotation & Hough-based, max tilt $\pm 5^{\circ}$ \\
+    Line normalization & Stabilize height and baseline drift & target x-height 24--40 px \\
+    \hline
+  \end{tabular}
+\end{table}
 
-\subsection*{3. Prompt Generation Module}
-\textbf{Role:}
-\begin{itemize}
-    \item Organize raw output of OCR into a meaningful and coherent prompt.
-    \item Utilize the ChatGPT API for processing and enriching a text for its future use in generating an image.
-\end{itemize}
+The OCR engine outputs text along with structural annotations (bounding boxes, line order), enabling downstream validation. Post-OCR correction applies lightweight language priors and domain lexica before handing text to the language module; corrections are logged for ablation in Chapter~7.
 
-\subsection*{4. AI Image Generation Module}
-\textbf{Role:}
-\begin{itemize}
-    \item Obtain an optimized prompt and make an external request for an image creation API.
-    \item Deal with the asynchronous behavior of generating an image, including polling for a result and downloading the generated image.
-\end{itemize}
+\section{Local Language Processing on macOS}
 
-\begin{figure}[h]
-    \centering
-    \includegraphics{system_architecture_diagram.png} % Replace with actual figure file
-    \caption{System Architecture Diagram}
-    \label{fig:system_architecture}
-\end{figure}
+To preserve privacy and reduce round-trip latency, natural language understanding and prompt synthesis are executed locally using the GPT-OSS-20B open-source model deployed via Ollama on macOS \cite{openai2025gptoss}. The module performs three tasks: (i) error-tolerant normalization of noisy OCR text; (ii) semantic enrichment by inferring missing descriptors and resolving ambiguities with conservative heuristics; and (iii) prompt construction tailored to the requirements of the downstream generator (style hints, composition cues, safety constraints). The design follows contemporary practices in multimodal LLM systems \cite{qin2024comprehensive, jin2024mm}, but emphasizes deterministic behavior when required by fixing seeds and freezing templates for controlled experiments.
 
-\section{Use Cases and Interaction Sequences}
+Prompt templates are versioned artifacts. Each template encodes content structure (subject, attributes, scene, lighting), stylistic controls, and negative constraints (undesired artifacts). The module provides a strict schema to the orchestrator to prevent accidental drift of prompt distributions during evaluation.
 
-The system supports a range of use cases, each defining a specific sequence of interaction between the system and the user:
+\section{Image Generation with FLUX}
 
-\subsection*{1. Upload of an Image and OCR Processing}
-\begin{itemize}
-    \item User uploads an image with textual information in it. The system performs several preprocessing operations in preparation for OCR processing in an attempt to extract text.
-\end{itemize}
+The image generation backend integrates FLUX \cite{blackforestlabs2024flux} with architectural innovations in flow matching and parallel attention that enable high-fidelity, instruction-following synthesis \cite{rombach2025flux}. The subsystem exposes a job API that accepts normalized prompts, sampling configuration (steps, guidance, negative prompts), and optional seeds. Generated candidates are ranked with a lightweight heuristic incorporating prompt consistency and aesthetic proxies, facilitating downstream user selection. While this work focuses on faithful prompt adherence and controllability rather than unconstrained creativity, we acknowledge broader findings on the creative capacity of text-to-image models \cite{oppenlaender2022creativity}.
 
-\subsection*{2. Prompt Optimization}
-\begin{itemize}
-    \item Unrefined output text generated through the OCR module is sent to the ChatGPT API in an attempt to generate an optimized prompt.
-    \item Alternative: In case of an API failure or a timeout, the system informs the user and provides unprocessed text in a fallback prompt form.
-\end{itemize}
+For interactive use, job processing is asynchronous and cancellable. Partial results can be surfaced progressively when supported by the backend, maintaining UI responsiveness even under heavy loads.
 
-\subsection*{3. Generation of an Image}
-\begin{itemize}
-    \item With the optimized prompt, the system invokes the AI picture creation API. It then polls for processing completion and retrieves the generated picture in its final form.
-    \item Alternative: In case of failures at the API (e.g., rate limiting, lack of credits), relevant error messages are displayed, and options for reattempting could be supported.
-\end{itemize}
+\section{Orchestration, Error Handling, and UI}
 
-\section{Implementation Environment}
+The coordination layer implements a non-blocking pipeline with explicit state transitions and bounded queues between subsystems. Status updates and errors propagate through a unified channel, allowing the UI to present actionable progress and recovery paths. On macOS, the native interface provides controls for OCR model selection, preprocessing intensity, language module presets, and generation styles. Internally, the implementation aligns with a modular separation of concerns: OCR model management, image preprocessing, language prompting, image generation service, screenshot capture/overlay, and view control. Table~\ref{tab:modules} summarizes the principal modules and their responsibilities as realized in the application codebase.
 
-The system is implemented as a native application for macOS using Objective-C and Objective-C++ for native integration with C++ libraries, such as Tesseract. The key aspects of the implementation environment include:
+\begin{table}[t]
+  \centering
+  \caption{Primary modules and responsibilities in the macOS implementation. The mapping reflects the code organization used for experimentation and evaluation.}
+  \label{tab:modules}
+  \begin{tabular}{l l}
+    \hline
+    Module (Objective-C) & Responsibility \\
+    \hline
+    \texttt{SLScreenshot}/\texttt{SLScreenshotOverlay} & Screen capture, region selection, overlay interactions \\
+    \texttt{SLImageProcessor} & Preprocessing pipeline configuration and execution \\
+    \texttt{SLOCRModelManager}/\texttt{SLTesseract} & Model loading, OCR invocation, and result structuring \\
+    \texttt{SLImageGenerationService} & FLUX backend integration, job lifecycle, and retries \\
+    \texttt{SLImageStyleManager} & Prompt styling presets and negative constraints \\
+    \texttt{SLViewController} & Orchestration, UI binding, and error presentation \\
+    \hline
+  \end{tabular}
+\end{table}
 
-\subsection*{Operating System}
-\begin{itemize}
-    \item The application runs under macOS, leveraging the Cocoa environment to support user interface items and system-level operations.
-\end{itemize}
+Reliability is addressed through idempotent operations, bounded retries with exponential back-off for networked components, and structured error taxonomies (recoverable vs. terminal). All model and parameter versions are recorded alongside outputs to support reproducibility.
 
-\subsection*{Programming Languages}
-\begin{itemize}
-    \item Objective-C is used as the base language for both the user interface and high-level application behavior.
-    \item Objective-C++ enables native integration with C++ libraries for performance-critical operations such as OCR.
-\end{itemize}
+\section{Performance and Resource Budget}
 
-\section{Conclusion}
+Given the heterogeneous nature of inputs, we define target budgets rather than single-point metrics; empirical results are reported in Chapter~7. For typical single-region screenshots, the pipeline targets sub-second preprocessing and OCR on-device, prompt synthesis within interactive bounds on GPT-OSS-20B with Ollama, and image generation latency dependent on sampling configuration. Caching at image, text, and prompt levels avoids redundant computation during iterative refinement.
 
-In conclusion, the system forms an overall structure that integrates sophisticated character recognition techniques, enriched language processing for effective prompt creation, and artificial intelligence-powered image generation in an efficient pipeline. All parts have been carefully crafted to serve specific roles synergistically. With its module-based structure and effective management of errors, the system ensures ease, maintainability, and usability. This system overview will form the basis for the following chapters, in which specific aspects such as OCR, generating prompts, and generation images will be discussed in detail.
+\section{Security, Privacy, and Reproducibility}
+
+All text-bearing operations (preprocessing, OCR, normalization, and prompt construction) execute locally on macOS with no transmission of source text to external services. When remote backends are used for image generation, only distilled prompts (free of sensitive text content when required) are transmitted, and requests can be anonymized. Deterministic runs are supported via fixed seeds and locked configurations; logs contain model hashes and parameter digests to enable exact regeneration of results.
+
+\section{Summary}
+
+The presented architecture composes domain-optimized OCR with local language model and modern image synthesis into a cohesive, privacy-preserving system. Through modular boundaries, asynchronous orchestration, and careful co-design of preprocessing and recognition, the pipeline supports both controlled evaluation and practical interactive use. Subsequent chapters detail component-level implementations (Chapters~4--6) and provide comprehensive quantitative and qualitative assessment (Chapter~7).
