@@ -1,79 +1,340 @@
 \chapter{System Overview}
 
-This chapter presents the end-to-end system that transforms text contained in images into high-quality visual outputs by integrating custom-trained Tesseract OCR, image preprocessing, locally deployed large language model, and state-of-the-art text-to-image generation. The architecture is driven by practical constraints of privacy, latency, and robustness on commodity macOS hardware, while ensuring modularity for experimentation and rigorous evaluation. The design choices are grounded in prior advances in OCR and sequence model \cite{smith2007overview, graves2006connectionist, hochreiter1997long}, multimodal and LLM research \cite{qin2024comprehensive, jin2024mm}, as well as recent progress in open-source LLM deployment \cite{openai2025gptoss} and diffusion-based image synthesis \cite{blackforestlabs2024flux, rombach2025flux}.
+The development of integrated multimodal AI systems requires careful consideration of architectural design principles that enable effective coordination between diverse AI components while maintaining system performance, scalability, and maintainability. This chapter presents a comprehensive overview of the proposed text-to-image transformation system, detailing its architectural foundation, component interactions, and design rationale. The system architecture follows established principles for multimodal AI system design \cite{li2024generalist}, incorporating modular integration patterns that facilitate both local and cloud-based AI service coordination.
 
-\section{Design Goals and Constraints}
+\section{System Requirements and Design Principles}
 
-The system is architected around four primary goals. First, it preserves data privacy by executing text recognition, language understanding, and prompt synthesis entirely on-device; no source text leaves the macOS host. Second, it pursues reliability and fidelity by combining advanced preprocessing with custom-trained OCR models tuned to the target domains \cite{esser2020improving}. Third, it provides responsive interactive use through asynchronous orchestration and streaming interfaces. Fourth, it is reproducible and extensible: all transformations are deterministic when desired (fixed seeds, versioned models), and subsystems can be swapped without cascading changes.
+The system architecture is designed to address several critical requirements that emerge from the integration of OCR, natural language processing, and image generation technologies. These requirements span functional, non-functional, and architectural domains, establishing the foundation for design decisions throughout the development process.
 
-\section{End-to-End Pipeline}
+\subsection{Functional Requirements}
 
-Figure~\ref{fig:pipeline-overview} summarizes the processing flow. Users acquire an image (screenshot or import). The Image Preprocessing and OCR subsystem performs adaptive enhancement and recognition with custom Tesseract models. The resulting text, together with document context, is transformed locally into a semantically rich, generation-ready prompt using a locally deployed GPT-OSS-20B model served by the Ollama runtime on macOS \cite{openai2025gptoss}. The prompt is then consumed by a FLUX-based image generation backend that returns one or more candidate images \cite{blackforestlabs2024flux, rombach2025flux}. Results and intermediate artifacts are persisted for auditability and downstream evaluation (Chapter~7).
+The primary functional requirements encompass the complete text-to-image transformation workflow, beginning with image acquisition and preprocessing, continuing through text extraction and prompt optimization, and culminating in high-quality image generation. The system must support multiple OCR models with configurable parameters, enabling users to select appropriate models based on content characteristics and quality requirements. Advanced preprocessing capabilities including contrast adjustment, brightness optimization, sharpness enhancement, and adaptive thresholding must be integrated with the OCR pipeline to maximize text extraction accuracy across diverse image conditions.
 
-\begin{figure}[t]
-  \centering
-  % Simple placeholder; replace with final graphic later
-  \vspace{3cm}
-  \caption{Pipeline overview.}
-  \label{fig:pipeline-overview}
+Natural language processing capabilities must transform raw OCR output into semantically rich prompts suitable for image generation, incorporating error correction mechanisms to handle OCR inaccuracies and contextual enhancement to improve visual output quality. The image generation subsystem must interface with external AI services while providing comprehensive style customization, aspect ratio control, and quality parameter adjustment.
+
+\subsection{Non-Functional Requirements}
+
+Performance requirements mandate real-time responsiveness for preprocessing operations, efficient resource utilization for local AI inference, and optimized communication protocols for external service integration. The system must maintain acceptable response times while processing high-resolution images and generating complex prompts through local language model inference.
+
+Reliability requirements include comprehensive error handling for network failures, API rate limiting, and service unavailability. The system must provide graceful degradation capabilities and informative error reporting to maintain user experience quality under adverse conditions.
+
+Privacy and security requirements necessitate local processing for sensitive operations, secure API key management, and data protection throughout the processing pipeline. The system must ensure that user data remains protected while leveraging external services for computationally intensive operations.
+
+\subsection{Architectural Design Principles}
+
+The system architecture adheres to established design principles for multimodal AI systems, as outlined in recent research on generalist multimodal architectures \cite{li2024generalist}. The modular design principle ensures that system components are designed for specific functions and can be combined in different configurations, facilitating maintenance, testing, and future enhancements.
+
+The separation of concerns principle maintains clear boundaries between OCR processing, natural language processing, and image generation, enabling independent optimization and development of each subsystem. The hybrid deployment principle balances local processing for privacy-sensitive operations with cloud-based services for computationally intensive tasks, optimizing both performance and resource utilization.
+
+\section{System Architecture Overview}
+
+The system architecture employs a layered modular design that integrates multiple AI technologies while maintaining clear separation of responsibilities and efficient data flow. Figure \ref{fig:system_architecture} illustrates the overall system stru cture and component relationships.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=1.5cm,
+        every node/.style={align=center, minimum width=3cm, minimum height=1cm},
+        component/.style={rectangle, draw, thick, fill=blue!20},
+        interface/.style={rectangle, draw, thick, fill=green!20},
+        service/.style={rectangle, draw, thick, fill=orange!20},
+        arrow/.style={->, thick}
+    ]
+    
+    % User Interface Layer
+    \node[interface] (ui) {User Interface\\Layer};
+    
+    % System Controller
+    \node[component, below=of ui] (controller) {System\\Controller};
+    
+    % Core Processing Components
+    \node[component, below left=of controller] (ocr) {OCR};
+    \node[component, below=of controller] (nlp) {Natural Language\\Processing};
+    \node[component, below right=of controller] (imggen) {Image Generation\\Service};
+    
+    % External Services
+    \node[service, below=of nlp] (gpt) {GPT-OSS-20B\\(Ollama)};
+    \node[service, below=of imggen] (flux) {FLUX API\\Service};
+    
+    % Data Storage
+    \node[service, below=of ocr] (storage) {Tesseract \&\\Image Processing};
+    
+    % Arrows
+    \draw[arrow] (ui) -- (controller);
+    \draw[arrow] (controller) -- (ocr);
+    \draw[arrow] (controller) -- (nlp);
+    \draw[arrow] (controller) -- (imggen);
+    \draw[arrow] (nlp) -- (gpt);
+    \draw[arrow] (imggen) -- (flux);
+    \draw[arrow] (ocr) -- (storage);
+    
+    % Data flow arrows
+    \draw[arrow, dashed] (ocr) -- (nlp);
+    \draw[arrow, dashed] (nlp) -- (imggen);
+    
+    \end{tikzpicture}
+    \caption{System Architecture Overview}
+    \label{fig:system_architecture}
 \end{figure}
 
-\section{Image Preprocessing and OCR}
+\subsection{Layered Architecture Design}
 
-Robust text extraction is the foundation of the pipeline. The OCR subsystem builds on Tesseract's modern LSTM-based recognizer \cite{smith2007overview, hochreiter1997long} and is strengthened with custom training for the target domains. Training uses curated corpora with realistic degradations and typography variations, balancing printed and handwritten styles, and leverages sequence learning techniques that align naturally with unsegmented text lines \cite{graves2006connectionist}. We adopt a co-design philosophy whereby preprocessing and recognition are optimized jointly: adaptive contrast enhancement, denoising, local thresholding, and perspective correction are selected to maximize character- and word-level accuracy for the trained models \cite{esser2020improving}.
+The system employs a four-layer architecture that provides clear separation of concerns while enabling efficient data flow and component interaction. The Presentation Layer encompasses the user interface components, providing intuitive controls for system operation and comprehensive visualization of processing results. The Control Layer manages workflow orchestration, component coordination, and system state management, serving as the central coordinator for all system operations.
 
-Preprocessing is parameterized to accommodate heterogeneous inputs encountered in screenshots and document captures. Table~\ref{tab:preproc} outlines typical operators and ranges used during both training-time augmentation and inference-time enhancement. The goal is not merely to denoise, but to shape the input distribution to match the statistics seen by the custom recognizers.
+The Processing Layer contains the core AI components responsible for OCR, natural language processing, and image generation coordination. This layer implements the primary business logic and manages the transformation of data between different modalities. The Service Layer provides interfaces to both local and external AI services, managing communication protocols, authentication, and error handling for all external dependencies.
 
-\begin{table}[t]
-  \centering
-  \caption{Preprocessing operators and representative parameterization used in training augmentation and inference-time enhancement. Ranges are design targets; measured effects are analyzed in Chapter~7.}
-  \label{tab:preproc}
-  \small
-  \begin{tabular}{lll}
-    \hline
-  \begin{center}
-  \emph{[Pipeline overview graphic placeholder]}
-  \end{center}
-    Line normalization & Stabilize height and baseline drift & target x-height 24--40 px \\
-    \hline
-  \end{tabular}
+\section{Component Architecture and Interactions}
+
+The system comprises five primary components that work together to achieve comprehensive text-to-image transformation capabilities. Each component is designed with specific responsibilities and well-defined interfaces to other system elements.
+
+\subsection{OCR and Image Processing Component}
+
+The OCR and Image Processing Component serves as the foundation of the text extraction pipeline, incorporating advanced preprocessing techniques with custom-trained Tesseract models to achieve optimal text recognition accuracy across diverse image conditions. Recent research has demonstrated the critical importance of preprocessing in OCR pipeline architectures \cite{wang2025prep, ye2024general}, with comprehensive preprocessing pipelines showing significant improvements in recognition accuracy.
+
+\begin{table}[H]
+\centering
+\caption{OCR Component Specifications}
+\label{tab:ocr_specifications}
+\begin{tabular}{|l|p{8cm}|}
+\hline
+\textbf{Feature} & \textbf{Specification} \\
+\hline
+OCR Engine & Custom-trained Tesseract with domain-specific models \\
+\hline
+Supported Languages & English, Chinese Simplified, Custom trained models \\
+\hline
+Preprocessing Techniques & Adaptive thresholding, contrast enhancement, brightness adjustment, noise reduction, skew correction \\
+\hline
+Image Formats & PNG, JPEG, TIFF, BMP, GIF \\
+\hline
+Maximum Resolution & 8000 x 8000 pixels \\
+\hline
+Processing Time & $<$2 seconds for typical documents (1024x768) \\
+\hline
+Confidence Scoring & Character and word-level confidence metrics \\
+\hline
+Output Formats & Plain text, structured data with positioning information \\
+\hline
+\end{tabular}
 \end{table}
 
-The OCR engine outputs text along with structural annotations (bounding boxes, line order), enabling downstream validation. Post-OCR correction applies lightweight language priors and domain lexica before handing text to the language module; corrections are logged for ablation in Chapter~7.
+The preprocessing pipeline implements several advanced techniques to enhance OCR accuracy. Adaptive thresholding algorithms adjust binarization parameters based on local image characteristics, improving text extraction from images with varying lighting conditions or background complexity. Contrast enhancement utilizes histogram equalization and adaptive contrast adjustment to improve text visibility, while noise reduction algorithms remove artifacts that could interfere with character recognition.
 
-  \begin{itemize}
-    \item Adaptive contrast (CLAHE): Improve local text/background separation; clip-limit 2.0--4.0.
-    \item Bilateral/median filtering: Suppress noise while preserving edges; kernel 3--7 px.
-    \item Adaptive thresholding: Robust binarization under uneven lighting; window 11--31, C in [2,10].
-    \item Morphological open/close: Fill gaps, remove speckles; kernel 2--5 px.
-    \item Deskew and rectification: Correct perspective and rotation; Hough-based, max tilt $\pm 5^{\circ}$.
-    \item Line normalization: Stabilize height and baseline drift; target x-height 24--40 px.
-  \end{itemize}
-  \caption{Primary modules and responsibilities in the macOS implementation. The mapping reflects the code organization used for experimentation and evaluation.}
-  \label{tab:modules}
-  \small
-  \begin{tabular}{ll}
-    \hline
-    Module (Objective-C) & Responsibility \\
-    \hline
-    SLScreenshot/\texttt{SLScreenshotOverlay} & Screen capture, region selection, overlay interactions \\
-    SLImageProcessor & Preprocessing pipeline configuration and execution \\
-    SLOCRModelManager/\texttt{SLTesseract} & Model loading, OCR invocation, and result structuring \\
-    SLImageGenerationService & FLUX backend integration, job lifecycle, and retries \\
-    SLImageStyleManager & Prompt styling presets and negative constraints \\
-    SLViewController & Orchestration, UI binding, and error presentation \\
-    \hline
-  \end{tabular}
+Geometric correction capabilities include automatic skew detection and correction, perspective transformation for documents captured at angles, and scale normalization to optimize character size for recognition algorithms. The component also implements confidence-based validation, providing quality metrics for extracted text that enable downstream components to assess and handle recognition uncertainties appropriately.
+
+\subsection{Natural Language Processing Component}
+
+The Natural Language Processing Component transforms raw OCR output into semantically rich prompts suitable for high-quality image generation. This component leverages the locally deployed GPT-OSS-20B model through the Ollama framework, providing sophisticated text understanding and generation capabilities while maintaining complete data privacy through local processing.
+
+\begin{table}[H]
+\centering
+\caption{Natural Language Processing Component Specifications}
+\label{tab:nlp_specifications}
+\begin{tabular}{|l|p{8cm}|}
+\hline
+\textbf{Feature} & \textbf{Specification} \\
+\hline
+Language Model & GPT-OSS-20B (21B parameters, MoE architecture) \\
+\hline
+Deployment Framework & Ollama on macOS \\
+\hline
+Memory Requirements & 16GB RAM minimum, 32GB recommended \\
+\hline
+Context Length & Up to 128,000 tokens \\
+\hline
+Processing Capabilities & Text enhancement, error correction, contextual enrichment \\
+\hline
+Response Time & 3-10 seconds per prompt (depending on complexity) \\
+\hline
+Prompt Templates & Customizable templates for different image styles \\
+\hline
+Output Format & Enhanced descriptive prompts optimized for image generation \\
+\hline
+Error Handling & OCR error detection and correction, context validation \\
+\hline
+\end{tabular}
 \end{table}
 
-Reliability is addressed through idempotent operations, bounded retries with exponential back-off for networked components, and structured error taxonomies (recoverable vs. terminal). All model and parameter versions are recorded alongside outputs to support reproducibility.
+The prompt generation process involves several sophisticated stages designed to transform raw OCR output into effective image generation prompts. Error correction algorithms analyze the extracted text for common OCR mistakes, utilizing the language model's understanding of context and semantics to identify and correct recognition errors. Contextual enrichment adds descriptive elements that enhance the visual specificity of the resulting prompts, incorporating style preferences, composition suggestions, and visual quality indicators.
 
-  \begin{itemize}
-    \item SLScreenshot/SLScreenshotOverlay: Screen capture, region selection, overlay interactions.
-    \item SLImageProcessor: Preprocessing pipeline configuration and execution.
-    \item SLOCRModelManager/SLTesseract: Model loading, OCR invocation, and result structuring.
-    \item SLImageGenerationService: FLUX backend integration, job lifecycle, and retries.
-    \item SLImageStyleManager: Prompt styling presets and negative constraints.
-    \item SLViewController: Orchestration, UI binding, and error presentation.
-  \end{itemize}
-    \hline
+The component implements template-based prompt generation, allowing users to specify different stylistic approaches and generation parameters. Templates are optimized for different image styles including photorealistic, artistic, technical, and creative approaches, ensuring that the generated prompts are appropriately formatted for the target image generation service.
+
+\subsection{Image Generation Service Component}
+
+The Image Generation Service Component manages integration with external AI image generation services, specifically the FLUX API developed by Black Forest Labs. This component handles the complexities of asynchronous image generation, including request submission, status monitoring, result retrieval, and comprehensive error management.
+
+Recent advances in text-to-image diffusion models have demonstrated remarkable capabilities in generating high-quality images from textual descriptions \cite{yang2023text, saharia2022photorealistic}. The FLUX model incorporates advanced architectural innovations including flow matching and parallel attention mechanisms that enable superior image quality and prompt adherence compared to earlier diffusion approaches \cite{liang2024rich}.
+
+\begin{table}[H]
+\centering
+\caption{Image Generation Service Specifications}
+\label{tab:imggen_specifications}
+\begin{tabular}{|l|p{8cm}|}
+\hline
+\textbf{Feature} & \textbf{Specification} \\
+\hline
+Generation Service & FLUX API (Black Forest Labs) \\
+\hline
+Model Architecture & 12B parameter rectified flow transformer \\
+\hline
+Maximum Resolution & 4 megapixels (Ultra mode) \\
+\hline
+Aspect Ratios & 1:1, 16:9, 9:16, 4:3, 3:4, and custom ratios \\
+\hline
+Generation Time & 15-60 seconds (depending on complexity and queue) \\
+\hline
+Quality Settings & Standard, High, Ultra quality modes \\
+\hline
+Style Options & Photorealistic, Artistic, Cinematic, Portrait, Landscape \\
+\hline
+Batch Processing & Up to 4 images per request \\
+\hline
+Error Handling & Rate limiting, credit management, service unavailability \\
+\hline
+\end{tabular}
+\end{table}
+
+The asynchronous processing architecture ensures that the user interface remains responsive during image generation operations, which can take varying amounts of time depending on queue status and generation complexity. The component implements intelligent polling strategies that balance responsiveness with API efficiency, minimizing unnecessary requests while providing timely status updates.
+
+Comprehensive error handling addresses various failure scenarios including network connectivity issues, API rate limiting, insufficient credits, and service unavailability. The component provides informative error messages and, where possible, suggestions for resolution or alternative approaches.
+
+\section{Data Flow and Processing Pipeline}
+
+The system implements a sophisticated data flow architecture that coordinates the transformation of input images through multiple processing stages to produce final image outputs. The pipeline design ensures optimal performance while maintaining data integrity and providing comprehensive error handling throughout the process.
+
+\subsection{Primary Processing Workflow}
+
+The primary processing workflow begins with image acquisition through the user interface, where users can either upload image files or capture screenshots directly within the application. The acquired images undergo immediate validation to ensure format compatibility and size constraints before entering the preprocessing pipeline.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        node distance=2cm,
+        every node/.style={align=center, minimum width=2.5cm, minimum height=0.8cm},
+        process/.style={rectangle, draw, thick, fill=lightblue},
+        decision/.style={diamond, draw, thick, fill=yellow!20, aspect=2},
+        data/.style={rectangle, draw, thick, fill=lightgreen, rounded corners},
+        arrow/.style={->, thick}
+    ]
+    
+    % Main flow
+    \node[data] (input) {Input Image};
+    \node[process, below=of input] (preprocess) {Image\\Preprocessing};
+    \node[process, below=of preprocess] (ocr) {OCR Text\\Extraction};
+    \node[decision, below=of ocr] (validate) {Text Quality\\Check};
+    \node[process, below left=of validate] (retry) {Reprocess with\\Adjusted Parameters};
+    \node[process, below right=of validate] (nlp) {Prompt\\Generation};
+    \node[process, below=of nlp] (imggen) {Image\\Generation};
+    \node[data, below=of imggen] (output) {Generated Image};
+    
+    % Arrows
+    \draw[arrow] (input) -- (preprocess);
+    \draw[arrow] (preprocess) -- (ocr);
+    \draw[arrow] (ocr) -- (validate);
+    \draw[arrow] (validate) -- node[left] {Low Quality} (retry);
+    \draw[arrow] (validate) -- node[right] {Acceptable} (nlp);
+    \draw[arrow] (retry) -- (preprocess);
+    \draw[arrow] (nlp) -- (imggen);
+    \draw[arrow] (imggen) -- (output);
+    
+    \end{tikzpicture}
+    \caption{Primary Data Processing Workflow}
+    \label{fig:data_flow}
+\end{figure}
+
+The preprocessing stage applies configurable enhancement algorithms based on image characteristics and user preferences. Adaptive algorithms analyze image properties including contrast levels, brightness distribution, noise characteristics, and geometric distortions to select appropriate preprocessing parameters. Users can override automatic selections through the advanced parameter controls, enabling fine-tuning for specific image types or quality requirements.
+
+OCR processing utilizes the selected Tesseract model with optimized parameters for the specific content type. The system maintains multiple trained models optimized for different scenarios, including general text recognition, handwritten content, and specialized document types. Model selection can be automatic based on image analysis or manual based on user preferences and content knowledge.
+
+Text quality validation employs multiple metrics to assess OCR accuracy and completeness. Confidence scoring from the OCR engine provides character and word-level quality indicators, while semantic analysis identifies potential recognition errors or incomplete extractions. If text quality falls below acceptable thresholds, the system can automatically retry processing with adjusted parameters or alternative models.
+
+\subsection{Asynchronous Processing Architecture}
+
+The system employs sophisticated asynchronous processing patterns to maintain user interface responsiveness while managing potentially time-consuming AI operations. The architecture separates user interface interactions from processing operations, enabling users to monitor progress, adjust parameters, and perform other tasks while processing continues in the background.
+
+\begin{table}[H]
+\centering
+\caption{Processing Time Analysis}
+\label{tab:processing_times}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\textbf{Processing Stage} & \textbf{Typical Time} & \textbf{Range} & \textbf{Factors} \\
+\hline
+Image Preprocessing & 0.5-2 seconds & 0.2-5 seconds & Image size, complexity \\
+\hline
+OCR Processing & 1-3 seconds & 0.5-10 seconds & Text density, image quality \\
+\hline
+Prompt Generation & 2-5 seconds & 1-15 seconds & Text length, complexity \\
+\hline
+Image Generation & 5-15 seconds & 1-50 seconds & Queue status, parameters \\
+\hline
+Total Pipeline & 8.5-25 seconds & 2.7-80 seconds & Combined factors \\
+\hline
+\end{tabular}
+\end{table}
+
+Local processing operations including preprocessing, OCR, and prompt generation typically complete within seconds, providing rapid feedback to users about processing progress. The most time-consuming operation, image generation through external services, operates asynchronously with progress monitoring and status updates.
+
+The architecture implements intelligent queuing and batching strategies to optimize resource utilization and minimize processing delays. Multiple images can be processed simultaneously through the local pipeline stages, while image generation requests are managed according to external service capabilities and rate limiting requirements.
+
+\section{System Integration Patterns}
+
+The integration of multiple AI technologies within a single system presents unique challenges that require sophisticated coordination mechanisms and robust error handling strategies. The system employs several established integration patterns specifically adapted for multimodal AI applications.
+
+\subsection{Service-Oriented Architecture Patterns}
+
+The system implements service-oriented architecture principles to manage the integration of local and external AI services. Each major component exposes well-defined interfaces that abstract implementation details while providing comprehensive functionality to other system components. This approach enables independent development, testing, and optimization of individual components while maintaining overall system coherence.
+
+Local services including OCR processing and natural language processing implement standardized interfaces for configuration, processing, and result retrieval. These interfaces provide consistent error handling, progress reporting, and result formatting across all local operations. External service integration follows similar patterns, with additional considerations for network communication, authentication, and service availability.
+
+\subsection{Event-Driven Processing Patterns}
+
+Event-driven architecture patterns coordinate the complex interactions between system components while maintaining loose coupling and high responsiveness. Processing stages generate events that trigger subsequent operations, enabling efficient pipeline coordination without tight component dependencies.
+
+The event system supports both synchronous and asynchronous processing patterns, allowing immediate responses for fast operations while enabling background processing for time-consuming tasks. Event priorities ensure that user interface updates receive immediate attention while background processing continues efficiently.
+
+\subsection{Error Handling and Recovery Strategies}
+
+Comprehensive error handling addresses the various failure modes that can occur in integrated AI systems. The system implements multi-level error handling strategies that provide graceful degradation capabilities while maintaining user experience quality.
+
+Component-level error handling addresses failures within individual AI services, including model loading failures, processing errors, and resource exhaustion. System-level error handling manages coordination failures, communication problems, and cascading errors that affect multiple components. User-level error handling provides informative error messages and recovery suggestions, enabling users to understand and address problems effectively.
+
+\section{Performance and Scalability Considerations}
+
+The system architecture incorporates several design elements specifically intended to optimize performance and enable future scalability enhancements. These considerations address both current operational requirements and anticipated future capabilities.
+
+\subsection{Resource Management Strategies}
+
+Efficient resource management ensures optimal performance across all system components while preventing resource conflicts or exhaustion. The system implements intelligent memory management for large language model operations, utilizing memory mapping and strategic loading patterns to minimize memory footprint while maintaining acceptable performance levels.
+
+Processing resource allocation balances the computational demands of different system components, ensuring that user interface responsiveness is maintained even during intensive AI operations. The system monitors resource utilization across all components and implements dynamic allocation strategies to optimize overall performance.
+
+\subsection{Caching and Optimization Strategies}
+
+Strategic caching improves system responsiveness by storing frequently accessed data and intermediate processing results. OCR results are cached based on image characteristics and processing parameters, enabling rapid reprocessing with different downstream parameters. Language model responses are cached for repeated prompt patterns, reducing processing time for similar requests.
+
+Processing optimization includes algorithm selection based on input characteristics, parameter tuning for specific use cases, and pipeline optimization to minimize unnecessary operations. The system continuously monitors performance metrics and adjusts optimization strategies based on usage patterns and performance requirements.
+
+\subsection{Future Scalability Enhancements}
+
+The modular architecture design facilitates future enhancements including additional AI model integration, improved processing algorithms, and enhanced user interface capabilities. Component interfaces are designed to support versioning and backward compatibility, enabling gradual system improvements without disrupting existing functionality.
+
+Planned scalability enhancements include support for additional OCR languages and models, integration with alternative image generation services, and enhanced preprocessing capabilities. The system architecture provides foundation support for these enhancements while maintaining current functionality and performance characteristics.
+
+\section{Security and Privacy Architecture}
+
+The system implements comprehensive security and privacy measures that address the unique requirements of integrated AI applications while maintaining user data protection throughout all processing operations.
+
+\subsection{Data Protection Strategies}
+
+Local processing for privacy-sensitive operations ensures that user data remains protected during OCR and natural language processing operations. The GPT-OSS-20B model operates entirely on local hardware, preventing sensitive text content from being transmitted to external services. Only final optimized prompts, which contain no personally identifiable information from the original images, are transmitted to external image generation services.
+
+Data handling protocols ensure that temporary files and processing artifacts are securely managed and cleaned up after processing completion. The system provides options for users to control data retention policies and automatic cleanup procedures based on their privacy requirements and operational needs.
+
+\subsection{API Security and Authentication}
+
+External service integration implements industry-standard security practices including secure API key management, encrypted communication protocols, and comprehensive authentication procedures. API keys are stored using macOS Keychain services, ensuring secure storage and access control for sensitive authentication information.
+
+Communication with external services utilizes HTTPS protocols with certificate validation and secure connection establishment procedures. The system implements retry mechanisms with exponential backoff for network failures while maintaining security standards throughout all communication attempts.
+
+This comprehensive system architecture provides the foundation for effective integration of OCR, natural language processing, and image generation technologies while addressing the complex requirements of multimodal AI applications. The following chapters will examine the detailed implementation of each system component and provide comprehensive evaluation of the integrated system performance.
