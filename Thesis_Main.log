@@ -1,7 +1,6 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.6)  8 AUG 2025 19:28
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.6)  8 AUG 2025 20:06
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
 **Thesis_Main.tex
 (./Thesis_Main.tex
@@ -876,9 +875,108 @@ LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
 )
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibrarypositioning.code.tex
+File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibraryshapes.code.tex
+File: tikzlibraryshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibraryshapes.geometric.code.tex
+File: tikzlibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibrary
+shapes.geometric.code.tex
+File: pgflibraryshapes.geometric.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibraryshapes.misc.code.tex
+File: tikzlibraryshapes.misc.code.tex 2023-01-15 v3.1.10 (3.1.10)
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibrary
+shapes.misc.code.tex
+File: pgflibraryshapes.misc.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibraryshapes.symbols.code.tex
+File: tikzlibraryshapes.symbols.code.tex 2023-01-15 v3.1.10 (3.1.10)
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibrary
+shapes.symbols.code.tex
+File: pgflibraryshapes.symbols.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibraryshapes.arrows.code.tex
+File: tikzlibraryshapes.arrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibrary
+shapes.arrows.code.tex
+File: pgflibraryshapes.arrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibraryshapes.callouts.code.tex
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibrary
+shapes.callouts.code.tex))
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibraryshapes.multipart.code.tex
+File: tikzlibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
+
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibrary
+shapes.multipart.code.tex
+File: pgflibraryshapes.multipart.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfnodepartlowerbox=\box94
+\pgfnodeparttwobox=\box95
+\pgfnodepartthreebox=\box96
+\pgfnodepartfourbox=\box97
+\pgfnodeparttwentybox=\box98
+\pgfnodepartnineteenbox=\box99
+\pgfnodeparteighteenbox=\box100
+\pgfnodepartseventeenbox=\box101
+\pgfnodepartsixteenbox=\box102
+\pgfnodepartfifteenbox=\box103
+\pgfnodepartfourteenbox=\box104
+\pgfnodepartthirteenbox=\box105
+\pgfnodeparttwelvebox=\box106
+\pgfnodepartelevenbox=\box107
+\pgfnodeparttenbox=\box108
+\pgfnodepartninebox=\box109
+\pgfnodeparteightbox=\box110
+\pgfnodepartsevenbox=\box111
+\pgfnodepartsixbox=\box112
+\pgfnodepartfivebox=\box113
+)))
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.
+meta.code.tex
+File: pgflibraryarrows.meta.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfarrowinset=\dimen329
+\pgfarrowlength=\dimen330
+\pgfarrowwidth=\dimen331
+\pgfarrowlinewidth=\dimen332
+)
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibrarydecorations.pathreplacing.code.tex
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/frontendlayer/tikz/librarie
+s/tikzlibrarydecorations.code.tex
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/modules/pgfmoduledecoration
+s.code.tex
+\pgfdecoratedcompleteddistance=\dimen333
+\pgfdecoratedremainingdistance=\dimen334
+\pgfdecoratedinputsegmentcompleteddistance=\dimen335
+\pgfdecoratedinputsegmentremainingdistance=\dimen336
+\pgf@decorate@distancetomove=\dimen337
+\pgf@decorate@repeatstate=\count391
+\pgfdecorationsegmentamplitude=\dimen338
+\pgfdecorationsegmentlength=\dimen339
+)
+\tikz@lib@dec@box=\box114
+)
+(/usr/local/texlive/2025/texmf-dist/tex/generic/pgf/libraries/decorations/pgfli
+brarydecorations.pathreplacing.code.tex))
 (/usr/local/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-06-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count391
+\l__color_backend_stack_int=\count392
 )
 (./Thesis_Main.aux (./chapters_before_preface/1_lay_abstract.aux)
 (./chapters_before_preface/2_abstract.aux)
@@ -887,39 +985,32 @@ File: l3backend-pdftex.def 2025-06-09 L3 backend support: PDF output (pdfTeX)
 (./chapters_before_preface/6_declaration_of_academic_achievement.aux)
 (./chapters_after_preface/1_introduction.aux)
 (./chapters_after_preface/2.Background.aux)
-(./chapters_after_preface/3.SystemOverview.aux)
-(./chapters_after_preface/4.HandwritingRec.aux)
-(./chapters_after_preface/5.AbstractGen.aux)
-(./chapters_after_preface/6.TextGenImage.aux)
-(./chapters_after_preface/7.Results.aux)
-(./chapters_after_preface/8.Conclusion.aux)
-(./chapters_after_preface_appendix/appendix_A.aux)
-(./chapters_after_preface_appendix/appendix_B.aux))
+(./chapters_after_preface/3.SystemOverview.aux))
 \openout1 = `Thesis_Main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 75.
-LaTeX Font Info:    ... okay on input line 75.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 82.
+LaTeX Font Info:    ... okay on input line 82.
 
 (/usr/local/texlive/2025/texmf-dist/tex/latex/base/textcomp.sty
 Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
 )
-\c@lstlisting=\count392
+\c@lstlisting=\count393
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -930,148 +1021,163 @@ Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * modes: 
 * h-part:(L,W,R)=(92.14519pt, 430.00462pt, 92.14519pt)
-* v-part:(T,H,B)=(95.39737pt, 556.47656pt, 143.09605pt)
-* \paperwidth=614.295pt
-* \paperheight=794.96999pt
-* \textwidth=433.62pt
-* \textheight=585.38744pt
-* \oddsidemargin=36.135pt
-* \evensidemargin=36.135pt
-* \topmargin=0.0pt
-* \headheight=14.5pt
-* \headsep=36.135pt
-* \topskip=12.0pt
-* \footskip=30.0pt
-* \marginparwidth=40.0pt
-* \marginparsep=10.0pt
-* \columnsep=10.0pt
-* \skip\footins=10.8pt plus 4.0pt minus 2.0pt
-* \hoffset=0.0pt
-* \voffset=0.0pt
-* \mag=1000
-* \@twocolumnfalse
-* \@twosidefalse
-* \@mparswitchfalse
-* \@reversemarginfalse
-* (1in=72.27pt=25.4mm, 1cm=28.453pt)
-
-(/usr/local/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
-[Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count393
-\scratchdimen=\dimen329
-\scratchbox=\box94
-\nofMPsegments=\count394
-\nofMParguments=\count395
-\everyMPshowfont=\toks51
-\MPscratchCnt=\count396
-\MPscratchDim=\dimen330
-\MPnumerator=\count397
-\makeMPintoPDFobject=\count398
-\everyMPtoPDFconversion=\toks52
-) (/usr/local/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
-Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
-85.
-
-(/usr/local/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
-e
-))
-Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: hyperref package is loaded.
-Package caption Info: longtable package is loaded.
-
-(/usr/local/texlive/2025/texmf-dist/tex/latex/caption/ltcaption.sty
-Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
-)
-Package caption Info: End \AtBeginDocument code.
-Package hyperref Info: Link coloring OFF on input line 75.
-
-(./Thesis_Main.out) (./Thesis_Main.out)
-\@outlinefile=\write6
-\openout6 = `Thesis_Main.out'.
-
-Package hyperref Info: Option `pageanchor' set `false' on input line 78.
+* v-part:(T,H,B)=(95.39737pt, 5.tex
+Chapter 2.
 
 
-[1
-
-{/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-
-[1{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
-}]
-LaTeX Font Info:    Trying to load font information for U+msa on input line 78.
-
- (/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 78.
-
-
-(/usr/local/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-
-[2]
-\openout2 = `chapters_before_preface/1_lay_abstract.aux'.
-
- (./chapters_before_preface/1_lay_abstract.tex)
-
-[3
-
-
-]
-\openout2 = `chapters_before_preface/2_abstract.aux'.
-
- (./chapters_before_preface/2_abstract.tex)
-
-[4
+[16
 
 
 
 
 ]
-\openout2 = `chapters_before_preface/3_dedication.aux'.
 
- (./chapters_before_preface/3_dedication.tex)
+[17]
 
-[5
+[18]
+
+[19]
+
+[20]
+
+[21]
+Overfull \hbox (0.14633pt too wide) in paragraph at lines 101--102
+[]\OT1/cmr/m/n/12 Text gen-er-a-tion for cre-ative writ-ing, con-tent cre-ation
+, and con-ver-sa-tional agents. 
+ []
+
+
+
+[22]
+
+[23]
+
+[24])
+
+[25]
+\openout2 = `chapters_after_preface/3.SystemOverview.aux'.
+
+ (./chapters_after_preface/3.SystemOverview.tex
+Chapter 3.
+
+Package natbib Warning: Citation `smith2007overview' on page 26 undefined on in
+put line 3.
+
+
+Package natbib Warning: Citation `graves2006connectionist' on page 26 undefined
+ on input line 3.
+
+
+Package natbib Warning: Citation `hochreiter1997long' on page 26 undefined on i
+nput line 3.
+
+
+Package natbib Warning: Citation `qin2024comprehensive' on page 26 undefined on
+ input line 3.
+
+
+Package natbib Warning: Citation `jin2024mm' on page 26 undefined on input line
+ 3.
+
+
+Package natbib Warning: Citation `openai2025gptoss' on page 26 undefined on inp
+ut line 3.
+
+
+Package natbib Warning: Citation `blackforestlabs2024flux' on page 26 undefined
+ on input line 3.
+
+
+Package natbib Warning: Citation `rombach2025flux' on page 26 undefined on inpu
+t line 3.
+
+
+Package natbib Warning: Citation `esser2020improving' on page 26 undefined on i
+nput line 7.
+
+
+
+[26
+
 
 
 
 ]
-\openout2 = `chapters_before_preface/4_acknowledgements.aux'.
 
- (./chapters_before_preface/4_acknowledgements.tex)
-
-[6
+LaTeX Warning: Reference `fig:pipeline-overview' on page 27 undefined on input 
+line 11.
 
 
+Package natbib Warning: Citation `openai2025gptoss' on page 27 undefined on inp
+ut line 11.
 
 
-] (./Thesis_Main.toc
-
-[7
-
+Package natbib Warning: Citation `blackforestlabs2024flux' on page 27 undefined
+ on input line 11.
 
 
-]
+Package natbib Warning: Citation `rombach2025flux' on page 27 undefined on inpu
+t line 11.
 
-[8]
+./chapters_after_preface/3.SystemOverview.tex:26: Too many }'s.
+\color@endbox ->\color@endgroup \egroup 
+                                        
+l.26 \end{figure}
+                 
+? 
 
-[9])
+./chapters_after_preface/3.SystemOverview.tex:26: LaTeX Error: \begin{document}
+ ended by \end{figure}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.26 \end{figure}
+                 
+? 
+./chapters_after_preface/3.SystemOverview.tex:26: Emergency stop.
+ ...                                              
+                                                  
+l.26 \end{figure}
+                 
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+ 
+Here is how much of TeX's memory you used:
+ 30648 strings out of 467801
+ 620883 string characters out of 5431911
+ 1105044 words of memory out of 5000000
+ 58747 multiletter control sequences out of 15000+600000
+ 635223 words of font info for 70 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 116i,12n,121p,1522b,626s stack positions out of 10000i,1000n,20000p,200000b,200000s
+./chapters_after_preface/3.SystemOverview.tex:26:  ==> Fatal error occurred, no
+ output PDF file produced!
+6
+
+
+
+
+] (./Thesis_Main.toc)
 \tf@toc=\write7
 \openout7 = `Thesis_Main.toc'.
 
 
 
-[10] (./Thesis_Main.lof)
+[7
+
+
+
+] (./Thesis_Main.lof)
 \tf@lof=\write8
 \openout8 = `Thesis_Main.lof'.
 
 
 
-[11
+[8
 
 ] (./Thesis_Main.lot)
 \tf@lot=\write9
@@ -1079,11 +1185,11 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
  (./notation.tex
 
-[12
+[9
 
 ])
 
-[13
+[10
 
 ]
 \openout2 = `chapters_before_preface/6_declaration_of_academic_achievement.aux'
@@ -1091,11 +1197,11 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 
  (./chapters_before_preface/6_declaration_of_academic_achievement.tex)
 
-[14
+[11
 
 
 ]
-Package hyperref Info: Option `pageanchor' set `true' on input line 89.
+Package hyperref Info: Option `pageanchor' set `true' on input line 96.
 \openout2 = `chapters_after_preface/1_introduction.aux'.
 
  (./chapters_after_preface/1_introduction.tex
@@ -1109,7 +1215,33 @@ Chapter 1.
 
 ]
 
+Package natbib Warning: Citation `esser2020improving' on page 2 undefined on in
+put line 11.
+
+
+Package natbib Warning: Citation `openai2025gptoss' on page 2 undefined on inpu
+t line 15.
+
+
+
 [2]
+
+Package natbib Warning: Citation `blackforestlabs2024flux' on page 3 undefined 
+on input line 17.
+
+
+Package natbib Warning: Citation `rombach2025flux' on page 3 undefined on input
+ line 17.
+
+
+Package natbib Warning: Citation `qin2024comprehensive' on page 3 undefined on 
+input line 19.
+
+
+Package natbib Warning: Citation `jin2024mm' on page 3 undefined on input line 
+19.
+
+
 
 [3]
 
@@ -1177,6 +1309,42 @@ Overfull \hbox (0.14633pt too wide) in paragraph at lines 101--102
  (./chapters_after_preface/3.SystemOverview.tex
 Chapter 3.
 
+Package natbib Warning: Citation `smith2007overview' on page 26 undefined on in
+put line 3.
+
+
+Package natbib Warning: Citation `graves2006connectionist' on page 26 undefined
+ on input line 3.
+
+
+Package natbib Warning: Citation `hochreiter1997long' on page 26 undefined on i
+nput line 3.
+
+
+Package natbib Warning: Citation `qin2024comprehensive' on page 26 undefined on
+ input line 3.
+
+
+Package natbib Warning: Citation `jin2024mm' on page 26 undefined on input line
+ 3.
+
+
+Package natbib Warning: Citation `openai2025gptoss' on page 26 undefined on inp
+ut line 3.
+
+
+Package natbib Warning: Citation `blackforestlabs2024flux' on page 26 undefined
+ on input line 3.
+
+
+Package natbib Warning: Citation `rombach2025flux' on page 26 undefined on inpu
+t line 3.
+
+
+Package natbib Warning: Citation `esser2020improving' on page 26 undefined on i
+nput line 7.
+
+
 
 [26
 
@@ -1188,7 +1356,19 @@ Chapter 3.
 LaTeX Warning: Reference `fig:pipeline-overview' on page 27 undefined on input 
 line 11.
 
-./chapters_after_preface/3.SystemOverview.tex:19: Too many }'s.
+
+Package natbib Warning: Citation `openai2025gptoss' on page 27 undefined on inp
+ut line 11.
+
+
+Package natbib Warning: Citation `blackforestlabs2024flux' on page 27 undefined
+ on input line 11.
+
+
+Package natbib Warning: Citation `rombach2025flux' on page 27 undefined on inpu
+t line 11.
+
+! Too many }'s.
 \color@endbox ->\color@endgroup \egroup 
                                         
 l.19 \end{figure}
@@ -1197,8 +1377,7 @@ You've closed more groups than you opened.
 Such booboos are generally harmless, so keep going.
 
 
-./chapters_after_preface/3.SystemOverview.tex:19: LaTeX Error: \begin{document}
- ended by \end{figure}.
+! LaTeX Error: \begin{document} ended by \end{figure}.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
@@ -1210,12 +1389,28 @@ Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-./chapters_after_preface/3.SystemOverview.tex:19: Extra \endgroup.
+! Extra \endgroup.
 \end  ...end#1\endcsname \@checkend {#1}\endgroup 
                                                   \UseHook {env/#1/after}\if...
 l.19 \end{figure}
                  
 Things are pretty mixed up, but I think the worst is over.
+
+
+Package natbib Warning: Citation `smith2007overview' on page 27 undefined on in
+put line 23.
+
+
+Package natbib Warning: Citation `hochreiter1997long' on page 27 undefined on i
+nput line 23.
+
+
+Package natbib Warning: Citation `graves2006connectionist' on page 27 undefined
+ on input line 23.
+
+
+Package natbib Warning: Citation `esser2020improving' on page 27 undefined on i
+nput line 23.
 
 
 
@@ -1224,8 +1419,7 @@ Things are pretty mixed up, but I think the worst is over.
 LaTeX Warning: Reference `tab:preproc' on page 28 undefined on input line 25.
 
 
-./chapters_after_preface/3.SystemOverview.tex:34: LaTeX Error: Not allowed in L
-R mode.
+! LaTeX Error: Not allowed in LR mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
@@ -1237,8 +1431,7 @@ You've lost some text.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-./chapters_after_preface/3.SystemOverview.tex:34: LaTeX Error: Not allowed in L
-R mode.
+! LaTeX Error: Not allowed in LR mode.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
@@ -1249,7 +1442,7 @@ l.34   \begin{center}
 You've lost some text.  Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \endgroup inserted.
+! Missing \endgroup inserted.
 <inserted text> 
                 \endgroup 
 l.34   \begin{center}
@@ -1260,7 +1453,7 @@ With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \endgroup inserted.
+! Missing \endgroup inserted.
 <inserted text> 
                 \endgroup 
 l.34   \begin{center}
@@ -1271,7 +1464,7 @@ With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing } inserted.
+! Missing } inserted.
 <inserted text> 
                 }
 l.34   \begin{center}
@@ -1282,14 +1475,14 @@ With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing } inserted.
+! Missing } inserted.
 <inserted text> 
                 }
 l.34   \begin{center}
@@ -1300,14 +1493,14 @@ With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1318,14 +1511,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1336,14 +1529,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1354,14 +1547,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1372,14 +1565,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1390,14 +1583,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1408,14 +1601,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1426,14 +1619,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1444,14 +1637,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1462,14 +1655,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1480,14 +1673,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1498,14 +1691,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1516,14 +1709,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1534,14 +1727,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1552,14 +1745,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1570,14 +1763,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1588,14 +1781,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1606,14 +1799,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1624,14 +1817,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1642,14 +1835,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1660,14 +1853,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1678,14 +1871,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1696,14 +1889,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1714,14 +1907,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1732,14 +1925,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1750,14 +1943,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1768,14 +1961,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1786,14 +1979,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1804,14 +1997,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1822,14 +2015,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1840,14 +2033,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1858,14 +2051,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1876,14 +2069,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1894,14 +2087,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1912,14 +2105,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1930,14 +2123,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1948,14 +2141,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1966,14 +2159,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -1984,14 +2177,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -2002,14 +2195,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -2020,14 +2213,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -2038,14 +2231,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -2056,14 +2249,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -2074,14 +2267,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -2092,14 +2285,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -2110,14 +2303,14 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 I'm guessing that you meant to end an alignment here.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Misplaced \cr.
+! Misplaced \cr.
 <inserted text> \cr 
                     
 l.34   \begin{center}
@@ -2128,20 +2321,19 @@ up above has ended a previous alignment prematurely,
 you're probably due for more error messages, and you
 might try typing `S' now just to see what is salvageable.
 
-./chapters_after_preface/3.SystemOverview.tex:34: Missing \cr inserted.
+! Missing \cr inserted.
 <inserted text> 
                 \cr 
 l.34   \begin{center}
                      
 (That makes 100 errors; please try again.) 
 Here is how much of TeX's memory you used:
- 30907 strings out of 467801
- 627513 string characters out of 5431911
- 1121972 words of memory out of 5000000
- 58906 multiletter control sequences out of 15000+600000
+ 33409 strings out of 467801
+ 703879 string characters out of 5431911
+ 1215532 words of memory out of 5000000
+ 61418 multiletter control sequences out of 15000+600000
  636471 words of font info for 75 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  116i,12n,121p,1522b,626s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-./chapters_after_preface/3.SystemOverview.tex:34:  ==> Fatal error occurred, no
- output PDF file produced!
+!  ==> Fatal error occurred, no output PDF file produced!
