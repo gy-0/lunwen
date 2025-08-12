@@ -4,7 +4,7 @@ The foundation of any text-to-image transformation system lies in its ability to
 
 Recent advances in OCR technology have demonstrated that combining traditional feature-based approaches with modern deep learning architectures can significantly enhance recognition accuracy \cite{clausner2020optical}. The system presented in this work leverages these advances by implementing custom LSTM-based Tesseract models trained specifically for the target application domains, integrated with sophisticated preprocessing algorithms that optimize image quality for text extraction.
 
-\section{Custom Tesseract Model Training Methodology}
+\section{Custom Tesseract Model Training}
 
 \subsection{Training Data Collection and Preparation}
 
@@ -16,25 +16,24 @@ The training dataset compilation leverages several established academic and open
 
 \begin{table}[H]
 \centering
+\footnotesize % IEEE 常用：根据版面需要可在 \scriptsize / \small / \footnotesize 间切换
+\setlength{\tabcolsep}{4pt} % 列间距(默认6pt)，略收紧以提高信息密度
 \caption{Training Dataset Sources and Characteristics}
 \label{tab:training_datasets}
-\begin{tabular}{|l|r|l|p{4cm}|}
-\hline
+
+\begin{tabularx}{\linewidth}{c c c Y}
+\toprule
 \textbf{Dataset} & \textbf{Samples} & \textbf{Type} & \textbf{Characteristics} \\
-\hline
-IAM Database & 13,353 & Handwritten & Lines of text by 657 writers, Lancaster-Oslo/Bergen corpus \\
-\hline
-ICDAR2003 & 507 & Scene Text & Natural scene images with character-level annotations \\
-\hline
-SynthText & 800,000+ & Synthetic & Synthetic text on diverse backgrounds, varying orientations \\
-\hline
-TextOCR & 1,000,000+ & Scene Text & Arbitrary shaped scene-text on TextVQA images \\
-\hline
-Custom Dataset & 45,000 & Mixed & Domain-specific documents, forms, technical papers \\
-\hline
-\textbf{Total} & \textbf{1,858,860} & \textbf{Multi-domain} & \textbf{Comprehensive coverage} \\
-\hline
-\end{tabular}
+\midrule
+IAM Database & 13{,}353 & Handwritten & Lines of text by 657 writers, Lancaster\textendash Oslo/Bergen corpus \\
+ICDAR2003 & 507 & Scene Text & Natural scene images with character\textendash level annotations \\
+SynthText & 800{,}000+ & Synthetic & Synthetic text on diverse backgrounds, varying orientations \\
+TextOCR & 1{,}000{,}000+ & Scene Text & Arbitrary\textendash shaped scene\textendash text on TextVQA images \\
+Custom Dataset & 45{,}000 & Mixed & Domain\textendash specific documents, forms, technical papers \\
+\midrule
+\textbf{Total} & \textbf{1{,}858{,}860} & \textbf{Multi\textendash domain} & \textbf{Comprehensive coverage} \\
+\bottomrule
+\end{tabularx}
 \end{table}
 
 The IAM Database provides extensive handwritten text samples created by 657 different writers, incorporating natural variations in writing styles, pen pressure, and character formation. The texts are derived from the Lancaster-Oslo/Bergen Corpus of British English, ensuring linguistic diversity and complexity.
@@ -51,17 +50,25 @@ To maximize training effectiveness and model generalization, we implemented a co
 \centering
 \caption{Data Augmentation Techniques and Parameters}
 \label{tab:augmentation_techniques}
-\begin{tabular}{|l|l|p{6cm}|}
+\begin{tabular}{|>{\centering\arraybackslash}p{0.15\linewidth}|>{\centering\arraybackslash}p{0.3\linewidth}|>{\raggedright\arraybackslash}p{0.4\linewidth}|}
 \hline
 \textbf{Technique} & \textbf{Parameters} & \textbf{Purpose and Implementation} \\
 \hline
-Geometric Transform & Rotation: ±15°, Scale: 0.8-1.2× & Simulates document scanning variations and camera angles \\
+Geometric Transform & Rotation: ±15°, 
+
+Scale: 0.8-1.2×& Simulates document scanning variations and camera angles \\
 \hline
-Photometric Variation & Brightness: ±25\%, Contrast: 0.7-1.4× & Handles different lighting conditions and image qualities \\
+Photometric Variation & Brightness: ±25\%,
+
+Contrast: 0.7-1.4×& Handles different lighting conditions and image qualities \\
 \hline
-Noise Injection & Gaussian: σ=0.01-0.05, Salt\&Pepper: 0.1\% & Simulates sensor noise and image compression artifacts \\
+Noise Injection & Gaussian: σ=0.01-0.05, 
+
+Salt\&Pepper: 0.1\%& Simulates sensor noise and image compression artifacts \\
 \hline
-Blur Simulation & Motion: 3-7px, Gaussian: σ=0.5-2.0 & Replicates camera shake and focus variations \\
+Blur Simulation & Motion: 3-7px, 
+
+Gaussian: σ=0.5-2.0& Replicates camera shake and focus variations \\
 \hline
 Perspective Distortion & Quadrilateral: ±10\% corner displacement & Models document curvature and viewing angle effects \\
 \hline
@@ -204,7 +211,7 @@ The preprocessing system analyzes input images to determine optimal enhancement 
 \centering
 \caption{Adaptive Preprocessing Techniques and Implementation}
 \label{tab:preprocessing_adaptive}
-\begin{tabular}{|l|l|p{5.5cm}|}
+\begin{tabular}{|p{3cm}|p{2.8cm}|p{7.2cm}|}
 \hline
 \textbf{Technique} & \textbf{Algorithm} & \textbf{Implementation and Parameters} \\
 \hline
@@ -543,7 +550,7 @@ Processing efficiency represents a critical factor in user experience and system
 \centering
 \caption{Performance Optimization Results}
 \label{tab:optimization_results}
-\begin{tabular}{|l|c|c|c|}
+\begin{tabular}{|p{4.5cm}|c|c|p{4.5cm}|}
 \hline
 \textbf{Optimization Technique} & \textbf{Time Reduction} & \textbf{Accuracy Impact} & \textbf{Implementation} \\
 \hline
