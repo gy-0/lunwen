@@ -44,10 +44,10 @@ To maximize training effectiveness and model generalization, we implemented a co
 
 \begin{table}[H]
 \centering
-\small
 \caption{Data Augmentation Techniques and Parameters}
 \label{tab:augmentation_techniques}
-\begin{tabular}{lll}
+\adjustbox{width=\textwidth,center}
+{\begin{tabular}{lll}
 \toprule
 \textbf{Technique} & \textbf{Parameters} & \textbf{Purpose} \\
 \midrule
@@ -57,7 +57,7 @@ Noise Injection & Gaussian: σ=0.01-0.05, S\&P: 0.1\% & Simulates sensor noise \
 Blur Simulation & Motion: 3-7px, Gaussian: σ=0.5-2.0 & Replicates camera effects \\
 Perspective Distortion & Quadrilateral: ±10\% displacement & Models viewing angles \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 The data preprocessing pipeline converts all training images to standardized formats while preserving essential textual information. Images are normalized to consistent resolution ranges (300-600 DPI equivalent) and converted to grayscale using perceptually-weighted color channel combination (R×0.299 + G×0.587 + B×0.114).
@@ -72,10 +72,10 @@ The LSTM architecture consists of multiple interconnected layers that process vi
 
 \begin{table}[H]
 \centering
-\small
 \caption{Custom LSTM Network Architecture Configuration}
 \label{tab:lstm_architecture}
-\begin{tabular}{lll}
+\adjustbox{width=\textwidth,center}
+{\begin{tabular}{lll}
 \toprule
 \textbf{Layer Type} & \textbf{Configuration} & \textbf{Function} \\
 \midrule
@@ -86,7 +86,7 @@ Dropout Layers & Rate: 0.3 & Prevents overfitting \\
 Dense Layer & 1024 units & Feature combination \\
 CTC Output Layer & Character set: 128 & Alignment-free learning \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 The mathematical foundation of the LSTM architecture can be expressed through the following equations:
@@ -491,10 +491,10 @@ The effectiveness of the OCR implementation is evaluated through comprehensive t
 
 \begin{table}[H]
 \centering
-\small
 \caption{OCR Performance Analysis Across Different Content Types}
 \label{tab:ocr_performance}
-\begin{tabular}{lcccc}
+\adjustbox{width=\textwidth,center}
+{\begin{tabular}{lcccc}
 \toprule
 \textbf{Content Type} & \textbf{Char Acc (\%)} & \textbf{Word Acc (\%)} & \textbf{Time (ms)} & \textbf{Model} \\
 \midrule
@@ -505,7 +505,7 @@ Degraded Images & 86.2 & 78.9 & 450 & Std + Preproc \\
 Screenshots & 92.1 & 87.3 & 200 & Document \\
 Forms and Tables & 91.7 & 85.6 & 380 & Forms \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 The performance analysis reveals that custom model training provides significant accuracy improvements over generic models, particularly for specialized content types such as handwritten text and technical documents. The preprocessing pipeline contributes an average accuracy improvement of 8.3\% for degraded images while maintaining acceptable processing times.
