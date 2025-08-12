@@ -1,4 +1,4 @@
-\chapter{Optical Character Recognition Implementation and Training}
+\chapter{OCR Implementation}
 
 The foundation of any text-to-image transformation system lies in its ability to accurately extract textual information from diverse image sources. This chapter presents a comprehensive analysis of the OCR implementation developed for this system, encompassing custom Tesseract model training methodologies, advanced preprocessing techniques, and the architectural integration of OCR components within the broader system framework. The implementation addresses critical challenges in text recognition accuracy, processing efficiency, and adaptability to various document types through a combination of custom-trained models and optimized preprocessing pipelines.
 
@@ -521,7 +521,7 @@ Processing efficiency represents a critical factor in user experience and system
 \label{tab:optimization_results}
 \begin{tabular}{lccc}
 \toprule
-\textbf{Optimization Technique} & \textbf{Time Reduction} & \textbf{Accuracy Impact} & \textbf{Implementation} \\
+\textbf{Technique} & \textbf{Time Reduction} & \textbf{Accuracy Impact} & \textbf{Implementation} \\
 \midrule
 Multi-threading & 35\% & None & Parallel preprocessing \\
 GPU Acceleration & 45\% & None & Core Image pipeline \\

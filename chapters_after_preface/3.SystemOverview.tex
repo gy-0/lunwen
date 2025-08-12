@@ -93,28 +93,22 @@ The OCR and Image Processing Component serves as the foundation of the text extr
 
 \begin{table}[H]
 \centering
+\small
 \caption{OCR Component Specifications}
 \label{tab:ocr_specifications}
-\begin{tabular}{|l|p{8cm}|}
-\hline
+\begin{tabular}{ll}
+\toprule
 \textbf{Feature} & \textbf{Specification} \\
-\hline
-OCR Engine & Custom-trained Tesseract with domain-specific models \\
-\hline
-Supported Languages & English, Chinese Simplified, Custom trained models \\
-\hline
-Preprocessing Techniques & Adaptive thresholding, contrast enhancement, brightness adjustment, noise reduction, skew correction \\
-\hline
+\midrule
+OCR Engine & Custom-trained Tesseract with domain models \\
+Supported Languages & English, Chinese Simplified, Custom models \\
+Preprocessing & Adaptive threshold, contrast, brightness, noise reduction \\
 Image Formats & PNG, JPEG, TIFF, BMP, GIF \\
-\hline
-Maximum Resolution & 8000 x 8000 pixels \\
-\hline
-Processing Time & $<$2 seconds for typical documents (1024x768) \\
-\hline
-Confidence Scoring & Character and word-level confidence metrics \\
-\hline
-Output Formats & Plain text, structured data with positioning information \\
-\hline
+Max Resolution & 8000 x 8000 pixels \\
+Processing Time & $<$2 sec for typical docs (1024x768) \\
+Confidence Scoring & Character and word-level metrics \\
+Output Formats & Plain text, structured data with positioning \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -128,30 +122,23 @@ The Natural Language Processing Component transforms raw OCR output into semanti
 
 \begin{table}[H]
 \centering
+\small
 \caption{Natural Language Processing Component Specifications}
 \label{tab:nlp_specifications}
-\begin{tabular}{|l|p{8cm}|}
-\hline
+\begin{tabular}{ll}
+\toprule
 \textbf{Feature} & \textbf{Specification} \\
-\hline
-Language Model & GPT-OSS-20B (21B parameters, MoE architecture) \\
-\hline
+\midrule
+Language Model & GPT-OSS-20B (21B params, MoE architecture) \\
 Deployment Framework & Ollama on macOS \\
-\hline
-Memory Requirements & 16GB RAM minimum, 32GB recommended \\
-\hline
+Memory Requirements & 16GB RAM min, 32GB recommended \\
 Context Length & Up to 128,000 tokens \\
-\hline
-Processing Capabilities & Text enhancement, error correction, contextual enrichment \\
-\hline
-Response Time & 3-10 seconds per prompt (depending on complexity) \\
-\hline
-Prompt Templates & Customizable templates for different image styles \\
-\hline
-Output Format & Enhanced descriptive prompts optimized for image generation \\
-\hline
-Error Handling & OCR error detection and correction, context validation \\
-\hline
+Processing Capabilities & Text enhancement, error correction, enrichment \\
+Response Time & 3-10 sec per prompt (complexity dependent) \\
+Prompt Templates & Customizable for different image styles \\
+Output Format & Enhanced prompts for image generation \\
+Error Handling & OCR error detection, context validation \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -167,30 +154,23 @@ Recent advances in text-to-image diffusion models have demonstrated remarkable c
 
 \begin{table}[H]
 \centering
+\small
 \caption{Image Generation Service Specifications}
 \label{tab:imggen_specifications}
-\begin{tabular}{|l|p{8cm}|}
-\hline
+\begin{tabular}{ll}
+\toprule
 \textbf{Feature} & \textbf{Specification} \\
-\hline
+\midrule
 Generation Service & FLUX API (Black Forest Labs) \\
-\hline
 Model Architecture & 12B parameter rectified flow transformer \\
-\hline
 Maximum Resolution & 4 megapixels (Ultra mode) \\
-\hline
-Aspect Ratios & 1:1, 16:9, 9:16, 4:3, 3:4, and custom ratios \\
-\hline
-Generation Time & 15-60 seconds (depending on complexity and queue) \\
-\hline
-Quality Settings & Standard, High, Ultra quality modes \\
-\hline
-Style Options & Photorealistic, Artistic, Cinematic, Portrait, Landscape \\
-\hline
+Aspect Ratios & 1:1, 16:9, 9:16, 4:3, 3:4, custom \\
+Generation Time & 15-60 sec (complexity and queue dependent) \\
+Quality Settings & Standard, High, Ultra modes \\
+Style Options & Photorealistic, Artistic, Cinematic, Portrait \\
 Batch Processing & Up to 4 images per request \\
-\hline
-Error Handling & Rate limiting, credit management, service unavailability \\
-\hline
+Error Handling & Rate limiting, credits, service availability \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -254,22 +234,19 @@ The system employs sophisticated asynchronous processing patterns to maintain us
 
 \begin{table}[H]
 \centering
+\small
 \caption{Processing Time Analysis}
 \label{tab:processing_times}
-\begin{tabular}{|l|l|l|l|}
-\hline
+\begin{tabular}{llll}
+\toprule
 \textbf{Processing Stage} & \textbf{Typical Time} & \textbf{Range} & \textbf{Factors} \\
-\hline
-Image Preprocessing & 0.5-2 seconds & 0.2-5 seconds & Image size, complexity \\
-\hline
-OCR Processing & 1-3 seconds & 0.5-10 seconds & Text density, image quality \\
-\hline
-Prompt Generation & 2-5 seconds & 1-15 seconds & Text length, complexity \\
-\hline
-Image Generation & 5-15 seconds & 1-50 seconds & Queue status, parameters \\
-\hline
-Total Pipeline & 8.5-25 seconds & 2.7-80 seconds & Combined factors \\
-\hline
+\midrule
+Image Preprocessing & 0.5-2 sec & 0.2-5 sec & Image size, complexity \\
+OCR Processing & 1-3 sec & 0.5-10 sec & Text density, quality \\
+Prompt Generation & 2-5 sec & 1-15 sec & Text length, complexity \\
+Image Generation & 5-15 sec & 1-50 sec & Queue status, parameters \\
+Total Pipeline & 8.5-25 sec & 2.7-80 sec & Combined factors \\
+\bottomrule
 \end{tabular}
 \end{table}
 
