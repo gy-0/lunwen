@@ -16,24 +16,20 @@ The training dataset compilation leverages several established academic and open
 
 \begin{table}[H]
 \centering
-\footnotesize % IEEE 常用：根据版面需要可在 \scriptsize / \small / \footnotesize 间切换
-\setlength{\tabcolsep}{4pt} % 列间距(默认6pt)，略收紧以提高信息密度
+\small
 \caption{Training Dataset Sources and Characteristics}
 \label{tab:training_datasets}
-
-\begin{tabularx}{\linewidth}{c c c Y}
+\begin{tabular}{lccc}
 \toprule
 \textbf{Dataset} & \textbf{Samples} & \textbf{Type} & \textbf{Characteristics} \\
 \midrule
-IAM Database & 13{,}353 & Handwritten & Lines of text by 657 writers, Lancaster\textendash Oslo/Bergen corpus \\
-ICDAR2003 & 507 & Scene Text & Natural scene images with character\textendash level annotations \\
-SynthText & 800{,}000+ & Synthetic & Synthetic text on diverse backgrounds, varying orientations \\
-TextOCR & 1{,}000{,}000+ & Scene Text & Arbitrary\textendash shaped scene\textendash text on TextVQA images \\
-Custom Dataset & 45{,}000 & Mixed & Domain\textendash specific documents, forms, technical papers \\
-\midrule
-\textbf{Total} & \textbf{1{,}858{,}860} & \textbf{Multi\textendash domain} & \textbf{Comprehensive coverage} \\
+IAM Database & 13,353 & Handwritten & Lines by 657 writers \\
+ICDAR2003 & 507 & Scene Text & Natural images with annotations \\
+SynthText & 800,000+ & Synthetic & Diverse backgrounds, orientations \\
+TextOCR & 1,000,000+ & Scene Text & Arbitrary shapes on TextVQA \\
+Custom Dataset & 45,000 & Mixed & Domain-specific documents \\
 \bottomrule
-\end{tabularx}
+\end{tabular}
 \end{table}
 
 The IAM Database provides extensive handwritten text samples created by 657 different writers, incorporating natural variations in writing styles, pen pressure, and character formation. The texts are derived from the Lancaster-Oslo/Bergen Corpus of British English, ensuring linguistic diversity and complexity.
@@ -48,30 +44,19 @@ To maximize training effectiveness and model generalization, we implemented a co
 
 \begin{table}[H]
 \centering
+\small
 \caption{Data Augmentation Techniques and Parameters}
 \label{tab:augmentation_techniques}
-\begin{tabular}{|>{\centering\arraybackslash}p{0.15\linewidth}|>{\centering\arraybackslash}p{0.3\linewidth}|>{\raggedright\arraybackslash}p{0.4\linewidth}|}
-\hline
-\textbf{Technique} & \textbf{Parameters} & \textbf{Purpose and Implementation} \\
-\hline
-Geometric Transform & Rotation: ±15°, 
-
-Scale: 0.8-1.2×& Simulates document scanning variations and camera angles \\
-\hline
-Photometric Variation & Brightness: ±25\%,
-
-Contrast: 0.7-1.4×& Handles different lighting conditions and image qualities \\
-\hline
-Noise Injection & Gaussian: σ=0.01-0.05, 
-
-Salt\&Pepper: 0.1\%& Simulates sensor noise and image compression artifacts \\
-\hline
-Blur Simulation & Motion: 3-7px, 
-
-Gaussian: σ=0.5-2.0& Replicates camera shake and focus variations \\
-\hline
-Perspective Distortion & Quadrilateral: ±10\% corner displacement & Models document curvature and viewing angle effects \\
-\hline
+\begin{tabular}{lll}
+\toprule
+\textbf{Technique} & \textbf{Parameters} & \textbf{Purpose} \\
+\midrule
+Geometric Transform & Rotation: ±15°, Scale: 0.8-1.2× & Simulates scanning variations \\
+Photometric Variation & Brightness: ±25\%, Contrast: 0.7-1.4× & Handles lighting conditions \\
+Noise Injection & Gaussian: σ=0.01-0.05, S\&P: 0.1\% & Simulates sensor noise \\
+Blur Simulation & Motion: 3-7px, Gaussian: σ=0.5-2.0 & Replicates camera effects \\
+Perspective Distortion & Quadrilateral: ±10\% displacement & Models viewing angles \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -87,24 +72,20 @@ The LSTM architecture consists of multiple interconnected layers that process vi
 
 \begin{table}[H]
 \centering
+\small
 \caption{Custom LSTM Network Architecture Configuration}
 \label{tab:lstm_architecture}
-\begin{tabular}{|l|l|p{7cm}|}
-\hline
-\textbf{Layer Type} & \textbf{Configuration} & \textbf{Function and Parameters} \\
-\hline
-Input Layer & 64×256 pixels & Normalized grayscale image patches with padding \\
-\hline
-Convolutional Layers & 3×(3×3), 64→128→256 filters & Feature extraction with ReLU activation, 2×2 max pooling \\
-\hline
-Bidirectional LSTM & 2 layers, 512 hidden units & Captures forward and backward character dependencies \\
-\hline
-Dropout Layers & Rate: 0.3 & Regularization to prevent overfitting during training \\
-\hline
-Dense Layer & 1024 units & Feature combination and dimensionality adjustment \\
-\hline
-CTC Output Layer & Character set size: 128 & Connectionist Temporal Classification for alignment-free learning \\
-\hline
+\begin{tabular}{lll}
+\toprule
+\textbf{Layer Type} & \textbf{Configuration} & \textbf{Function} \\
+\midrule
+Input Layer & 64×256 pixels & Normalized grayscale patches \\
+Convolutional Layers & 3×(3×3), 64→128→256 filters & Feature extraction, ReLU, pooling \\
+Bidirectional LSTM & 2 layers, 512 hidden units & Character dependencies \\
+Dropout Layers & Rate: 0.3 & Prevents overfitting \\
+Dense Layer & 1024 units & Feature combination \\
+CTC Output Layer & Character set: 128 & Alignment-free learning \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -127,26 +108,21 @@ The model training process incorporates several advanced optimization techniques
 
 \begin{table}[H]
 \centering
+\small
 \caption{Training Hyperparameters and Optimization Settings}
 \label{tab:training_config}
-\begin{tabular}{|l|l|p{6cm}|}
-\hline
-\textbf{Parameter} & \textbf{Value} & \textbf{Rationale and Implementation} \\
-\hline
-Learning Rate & 0.001→0.0001 & Exponential decay (γ=0.95) every 10 epochs \\
-\hline
-Batch Size & 32 & Balanced memory usage and gradient stability \\
-\hline
-Sequence Length & 128 characters & Sufficient for most document line lengths \\
-\hline
-Training Epochs & 200 (max) & Early stopping with patience=15 epochs \\
-\hline
-Loss Function & CTC Loss & Alignment-free sequence learning \\
-\hline
+\begin{tabular}{lll}
+\toprule
+\textbf{Parameter} & \textbf{Value} & \textbf{Implementation} \\
+\midrule
+Learning Rate & 0.001→0.0001 & Exponential decay (γ=0.95) \\
+Batch Size & 32 & Memory-gradient balance \\
+Sequence Length & 128 characters & Document line coverage \\
+Training Epochs & 200 (max) & Early stopping (patience=15) \\
+Loss Function & CTC Loss & Alignment-free learning \\
 Optimizer & Adam & β₁=0.9, β₂=0.999, ε=1e-8 \\
-\hline
-Gradient Clipping & Norm: 5.0 & Prevents gradient explosion \\
-\hline
+Gradient Clipping & Norm: 5.0 & Prevents explosion \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -209,24 +185,20 @@ The preprocessing system analyzes input images to determine optimal enhancement 
 
 \begin{table}[H]
 \centering
+\small
 \caption{Adaptive Preprocessing Techniques and Implementation}
 \label{tab:preprocessing_adaptive}
-\begin{tabular}{|p{3cm}|p{2.8cm}|p{7.2cm}|}
-\hline
-\textbf{Technique} & \textbf{Algorithm} & \textbf{Implementation and Parameters} \\
-\hline
-Noise Reduction & Bilateral Filter & Spatial σ=75, Color σ=75, Kernel 5×5-9×9 adaptive \\
-\hline
-Contrast Enhancement & CLAHE & Clip limit: 2.0-4.0, Tile size: 8×8 pixels \\
-\hline
-Adaptive Thresholding & Otsu + Gaussian & Block size: 11-31px adaptive, C constant: 2-10 \\
-\hline
-Sharpening & Unsharp Mask & Amount: 0.5-2.0, Radius: 1-3px, Threshold: 0 \\
-\hline
-Skew Correction & Hough Transform & Angle range: ±15°, Precision: 0.1° \\
-\hline
-Morphological Operations & Opening/Closing & Kernel: 2-5px adaptive, Iterations: 1-3 \\
-\hline
+\begin{tabular}{lll}
+\toprule
+\textbf{Technique} & \textbf{Algorithm} & \textbf{Parameters} \\
+\midrule
+Noise Reduction & Bilateral Filter & Spatial σ=75, Color σ=75 \\
+Contrast Enhancement & CLAHE & Clip: 2.0-4.0, Tile: 8×8px \\
+Adaptive Thresholding & Otsu + Gaussian & Block: 11-31px, C: 2-10 \\
+Sharpening & Unsharp Mask & Amount: 0.5-2.0, Radius: 1-3px \\
+Skew Correction & Hough Transform & Angle: ±15°, Precision: 0.1° \\
+Morphological Ops & Opening/Closing & Kernel: 2-5px, Iter: 1-3 \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -519,24 +491,20 @@ The effectiveness of the OCR implementation is evaluated through comprehensive t
 
 \begin{table}[H]
 \centering
+\small
 \caption{OCR Performance Analysis Across Different Content Types}
 \label{tab:ocr_performance}
-\begin{tabular}{|l|c|c|c|c|}
-\hline
+\begin{tabular}{lcccc}
+\toprule
 \textbf{Content Type} & \textbf{Char Acc (\%)} & \textbf{Word Acc (\%)} & \textbf{Time (ms)} & \textbf{Model} \\
-\hline
+\midrule
 Clean Printed Text & 98.7 & 95.2 & 150 & Standard \\
-\hline
 Handwritten Notes & 89.3 & 82.1 & 280 & Handwriting \\
-\hline
 Technical Documents & 94.8 & 88.7 & 320 & Technical \\
-\hline
 Degraded Images & 86.2 & 78.9 & 450 & Std + Preproc \\
-\hline
 Screenshots & 92.1 & 87.3 & 200 & Document \\
-\hline
 Forms and Tables & 91.7 & 85.6 & 380 & Forms \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -548,22 +516,19 @@ Processing efficiency represents a critical factor in user experience and system
 
 \begin{table}[H]
 \centering
+\small
 \caption{Performance Optimization Results}
 \label{tab:optimization_results}
-\begin{tabular}{|p{4.5cm}|c|c|p{4.5cm}|}
-\hline
+\begin{tabular}{lccc}
+\toprule
 \textbf{Optimization Technique} & \textbf{Time Reduction} & \textbf{Accuracy Impact} & \textbf{Implementation} \\
-\hline
-Multi-threading & 35\% & None & Parallel preprocessing stages \\
-\hline
+\midrule
+Multi-threading & 35\% & None & Parallel preprocessing \\
 GPU Acceleration & 45\% & None & Core Image pipeline \\
-\hline
-Intelligent Caching & 60\% & None & Preprocessed image cache \\
-\hline
-Adaptive Processing & 25\% & +2.1\% & Context-aware parameters \\
-\hline
-Model Quantization & 30\% & -0.8\% & 16-bit float precision \\
-\hline
+Intelligent Caching & 60\% & None & Image cache \\
+Adaptive Processing & 25\% & +2.1\% & Context-aware params \\
+Model Quantization & 30\% & -0.8\% & 16-bit precision \\
+\bottomrule
 \end{tabular}
 \end{table}
 
@@ -575,22 +540,19 @@ The OCR implementation incorporates sophisticated memory management strategies t
 
 \begin{table}[H]
 \centering
+\small
 \caption{Memory Usage Analysis for Different OCR Operations}
 \label{tab:memory_usage}
-\begin{tabular}{|l|c|c|c|}
-\hline
+\begin{tabular}{lccc}
+\toprule
 \textbf{Operation} & \textbf{Peak Mem (MB)} & \textbf{Avg Mem (MB)} & \textbf{Efficiency} \\
-\hline
+\midrule
 Model Loading & 145 & 132 & High \\
-\hline
 Image Preprocessing & 78 & 65 & High \\
-\hline
 Text Recognition & 89 & 76 & Medium \\
-\hline
 Multiple Models & 267 & 245 & Medium \\
-\hline
 Batch Processing & 156 & 134 & High \\
-\hline
+\bottomrule
 \end{tabular}
 \end{table}
 
