@@ -93,10 +93,10 @@ The OCR and Image Processing Component serves as the foundation of the text extr
 
 \begin{table}[H]
 \centering
-\small
 \caption{OCR Component Specifications}
 \label{tab:ocr_specifications}
-\begin{tabular}{ll}
+\adjustbox{max width=\textwidth,center}
+{\begin{tabular}{ll}
 \toprule
 \textbf{Feature} & \textbf{Specification} \\
 \midrule
@@ -109,7 +109,7 @@ Processing Time & $<$2 sec for typical docs (1024x768) \\
 Confidence Scoring & Character and word-level metrics \\
 Output Formats & Plain text, structured data with positioning \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 The preprocessing pipeline implements several advanced techniques to enhance OCR accuracy. Adaptive thresholding algorithms adjust binarization parameters based on local image characteristics, improving text extraction from images with varying lighting conditions or background complexity. Contrast enhancement utilizes histogram equalization and adaptive contrast adjustment to improve text visibility, while noise reduction algorithms remove artifacts that could interfere with character recognition.
@@ -122,10 +122,10 @@ The Natural Language Processing Component transforms raw OCR output into semanti
 
 \begin{table}[H]
 \centering
-\small
 \caption{Natural Language Processing Component Specifications}
 \label{tab:nlp_specifications}
-\begin{tabular}{ll}
+\adjustbox{max width=\textwidth,center}
+{\begin{tabular}{ll}
 \toprule
 \textbf{Feature} & \textbf{Specification} \\
 \midrule
@@ -139,7 +139,7 @@ Prompt Templates & Customizable for different image styles \\
 Output Format & Enhanced prompts for image generation \\
 Error Handling & OCR error detection, context validation \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 The prompt generation process involves several sophisticated stages designed to transform raw OCR output into effective image generation prompts. Error correction algorithms analyze the extracted text for common OCR mistakes, utilizing the language model's understanding of context and semantics to identify and correct recognition errors. Contextual enrichment adds descriptive elements that enhance the visual specificity of the resulting prompts, incorporating style preferences, composition suggestions, and visual quality indicators.
@@ -154,10 +154,10 @@ Recent advances in text-to-image diffusion models have demonstrated remarkable c
 
 \begin{table}[H]
 \centering
-\small
 \caption{Image Generation Service Specifications}
 \label{tab:imggen_specifications}
-\begin{tabular}{ll}
+\adjustbox{max width=\textwidth,center}
+{\begin{tabular}{ll}
 \toprule
 \textbf{Feature} & \textbf{Specification} \\
 \midrule
@@ -171,7 +171,7 @@ Style Options & Photorealistic, Artistic, Cinematic, Portrait \\
 Batch Processing & Up to 4 images per request \\
 Error Handling & Rate limiting, credits, service availability \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 The asynchronous processing architecture ensures that the user interface remains responsive during image generation operations, which can take varying amounts of time depending on queue status and generation complexity. The component implements intelligent polling strategies that balance responsiveness with API efficiency, minimizing unnecessary requests while providing timely status updates.
@@ -234,10 +234,10 @@ The system employs sophisticated asynchronous processing patterns to maintain us
 
 \begin{table}[H]
 \centering
-\small
 \caption{Processing Time Analysis}
 \label{tab:processing_times}
-\begin{tabular}{llll}
+\adjustbox{max width=\textwidth,center}
+{\begin{tabular}{llll}
 \toprule
 \textbf{Processing Stage} & \textbf{Typical Time} & \textbf{Range} & \textbf{Factors} \\
 \midrule
@@ -247,7 +247,7 @@ Prompt Generation & 2-5 sec & 1-15 sec & Text length, complexity \\
 Image Generation & 5-15 sec & 1-50 sec & Queue status, parameters \\
 Total Pipeline & 8.5-25 sec & 2.7-80 sec & Combined factors \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 Local processing operations including preprocessing, OCR, and prompt generation typically complete within seconds, providing rapid feedback to users about processing progress. The most time-consuming operation, image generation through external services, operates asynchronously with progress monitoring and status updates.

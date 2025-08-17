@@ -16,10 +16,10 @@ The training dataset compilation leverages several established academic and open
 
 \begin{table}[H]
 \centering
-\small
 \caption{Training Dataset Sources and Characteristics}
 \label{tab:training_datasets}
-\begin{tabular}{lccc}
+\adjustbox{max width=\textwidth,center}
+{\begin{tabular}{lccc}
 \toprule
 \textbf{Dataset} & \textbf{Samples} & \textbf{Type} & \textbf{Characteristics} \\
 \midrule
@@ -29,7 +29,7 @@ SynthText & 800,000+ & Synthetic & Diverse backgrounds, orientations \\
 TextOCR & 1,000,000+ & Scene Text & Arbitrary shapes on TextVQA \\
 Custom Dataset & 45,000 & Mixed & Domain-specific documents \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 The IAM Database provides extensive handwritten text samples created by 657 different writers, incorporating natural variations in writing styles, pen pressure, and character formation. The texts are derived from the Lancaster-Oslo/Bergen Corpus of British English, ensuring linguistic diversity and complexity.
@@ -46,7 +46,7 @@ To maximize training effectiveness and model generalization, we implemented a co
 \centering
 \caption{Data Augmentation Techniques and Parameters}
 \label{tab:augmentation_techniques}
-\adjustbox{width=\textwidth,center}
+\adjustbox{max width=\textwidth,center}
 {\begin{tabular}{lll}
 \toprule
 \textbf{Technique} & \textbf{Parameters} & \textbf{Purpose} \\
@@ -74,17 +74,18 @@ The LSTM architecture consists of multiple interconnected layers that process vi
 \centering
 \caption{Custom LSTM Network Architecture Configuration}
 \label{tab:lstm_architecture}
-\adjustbox{width=\textwidth,center}
+\adjustbox{max width=\textwidth,center}
 {\begin{tabular}{lll}
 \toprule
 \textbf{Layer Type} & \textbf{Configuration} & \textbf{Function} \\
 \midrule
-Input Layer & 64×256 pixels & Normalized grayscale patches \\
-Convolutional Layers & 3×(3×3), 64→128→256 filters & Feature extraction, ReLU, pooling \\
-Bidirectional LSTM & 2 layers, 512 hidden units & Character dependencies \\
-Dropout Layers & Rate: 0.3 & Prevents overfitting \\
-Dense Layer & 1024 units & Feature combination \\
-CTC Output Layer & Character set: 128 & Alignment-free learning \\
+Input Layer & 36×variable width, grayscale & Normalized image patches \\
+Convolutional Layer & 3×3, 16 filters, tanh activation & Feature extraction \\
+Max Pooling & 3×3 pooling window & Spatial dimension reduction \\
+Y-dimension LSTM & Forward, 48 units & Dimension summarization \\
+Bidirectional LSTM & Forward/Reverse, 96+96 units & Sequence dependencies \\
+Forward LSTM & 256 units & Final sequence modeling \\
+CTC Output Layer & 111 character classes & Alignment-free prediction \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -108,10 +109,10 @@ The model training process incorporates several advanced optimization techniques
 
 \begin{table}[H]
 \centering
-\small
 \caption{Training Hyperparameters and Optimization Settings}
 \label{tab:training_config}
-\begin{tabular}{lll}
+\adjustbox{max width=\textwidth,center}
+{\begin{tabular}{lll}
 \toprule
 \textbf{Parameter} & \textbf{Value} & \textbf{Implementation} \\
 \midrule
@@ -123,7 +124,7 @@ Loss Function & CTC Loss & Alignment-free learning \\
 Optimizer & Adam & β₁=0.9, β₂=0.999, ε=1e-8 \\
 Gradient Clipping & Norm: 5.0 & Prevents explosion \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 The training process utilizes the Connectionist Temporal Classification (CTC) loss function, which enables alignment-free sequence learning and handles variable-length input sequences efficiently. This approach eliminates the need for precise character-level alignment between input images and target text sequences, significantly simplifying the training data preparation process.
@@ -135,9 +136,9 @@ The training process utilizes the Connectionist Temporal Classification (CTC) lo
 The model training infrastructure utilizes high-performance computing resources to handle the computational demands of LSTM training on large datasets:
 
 \begin{itemize}
-\item \textbf{Hardware Configuration}: NVIDIA RTX 3090 GPU (24GB VRAM), Intel Core i9-12900K CPU, 64GB DDR4 RAM
-\item \textbf{Software Framework}: TensorFlow 2.12 with CUDA 11.8 acceleration
-\item \textbf{Training Duration}: Approximately 5-7 days for complete model convergence
+\item \textbf{Hardware Configuration}: Intel Core i9-12900K CPU (8P+8E cores, 24 threads, 3.2-5.2GHz), 64GB DDR4 RAM, NVIDIA RTX 3090 (image preprocessing only)
+\item \textbf{Software Framework}: Tesseract 5.0 with native LSTM implementation and OpenMP optimization
+\item \textbf{Training Duration}: Approximately 5-7 days for convergence (10,000 iterations)
 \item \textbf{Checkpoint Strategy}: Model state saved every 1000 iterations with best validation performance retention
 \end{itemize}
 
@@ -170,7 +171,8 @@ combine_tessdata -u eng.traineddata eng.
 lstmtraining --traineddata eng/eng.traineddata \
   --net_spec '[1,36,0,1 Ct3,3,16 Mp3,3 Lfys48 Lfx96 Lrx96 Lfx256 O1c111]' \
   --model_output output/custom --train_listfile train_list.txt \
-  --eval_listfile eval_list.txt --max_iterations 10000
+  --eval_listfile eval_list.txt --max_iterations 10000 \
+  --learning_rate 0.0001 --net_mode 192
 \end{verbatim}
 
 \section{Advanced Image Preprocessing Implementation}
@@ -185,10 +187,10 @@ The preprocessing system analyzes input images to determine optimal enhancement 
 
 \begin{table}[H]
 \centering
-\small
 \caption{Adaptive Preprocessing Techniques and Implementation}
 \label{tab:preprocessing_adaptive}
-\begin{tabular}{lll}
+\adjustbox{max width=\textwidth,center}
+{\begin{tabular}{lll}
 \toprule
 \textbf{Technique} & \textbf{Algorithm} & \textbf{Parameters} \\
 \midrule
@@ -199,119 +201,71 @@ Sharpening & Unsharp Mask & Amount: 0.5-2.0, Radius: 1-3px \\
 Skew Correction & Hough Transform & Angle: ±15°, Precision: 0.1° \\
 Morphological Ops & Opening/Closing & Kernel: 2-5px, Iter: 1-3 \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 The adaptive preprocessing pipeline utilizes image quality metrics to determine the optimal sequence and parameters for enhancement operations. The system calculates image sharpness using the Laplacian variance method, contrast using standard deviation analysis, and noise levels through high-frequency content examination.
 
 \subsubsection{Preprocessing Implementation in Objective-C}
 
-The Core Image-based preprocessing implementation leverages macOS's optimized image processing capabilities while providing fallback implementations for specialized operations. The following code excerpt demonstrates the advanced preprocessing workflow:
+The Core Image-based preprocessing implementation leverages macOS's optimized image processing capabilities through a multi-stage pipeline. The core preprocessing workflow integrates seven sequential enhancement stages:
 
-\begin{minted}[fontsize=\small, linenos]{objc}
-- (NSImage *)advancedPreprocessImage:(NSImage *)image 
-                            settings:(SLPreprocessingSettings *)settings {
-    
-    if (!image || image.size.width <= 0 || image.size.height <= 0) {
-        NSLog(@"Invalid input image");
-        return nil;
-    }
-    
-    // Convert to CIImage for processing
-    CIImage *ciImage = [[CIImage alloc] 
-                       initWithData:[image TIFFRepresentation]];
-    
-    // Stage 1: Noise reduction using bilateral filter approximation
-    CIImage *denoised = [self applyBilateralFilter:ciImage 
-                                       spatialSigma:settings.spatialSigma
-                                          colorSigma:settings.colorSigma];
-    
-    // Stage 2: Adaptive contrast enhancement
-    CIFilter *contrastFilter = [CIFilter filterWithName:@"CIColorControls"];
-    [contrastFilter setValue:denoised forKey:kCIInputImageKey];
-    [contrastFilter setValue:@(settings.contrast) forKey:kCIInputContrastKey];
-    [contrastFilter setValue:@(settings.brightness) forKey:kCIInputBrightnessKey];
-    [contrastFilter setValue:@(settings.saturation) forKey:kCIInputSaturationKey];
-    
-    // Stage 3: CLAHE-based local contrast enhancement
-    CIImage *claheEnhanced = [self applyCLAHE:contrastFilter.outputImage 
-                                    clipLimit:settings.claheClipLimit
-                                     tileSize:settings.claheTileSize];
-    
-    // Stage 4: Adaptive sharpening based on image content
-    CIFilter *sharpenFilter = [CIFilter filterWithName:@"CIUnsharpMask"];
-    [sharpenFilter setValue:claheEnhanced forKey:kCIInputImageKey];
-    [sharpenFilter setValue:@(settings.sharpness) forKey:kCIInputIntensityKey];
-    [sharpenFilter setValue:@(settings.sharpRadius) forKey:kCIInputRadiusKey];
-    
-    // Stage 5: Skew detection and correction
-    CIImage *skewCorrected = [self correctSkew:sharpenFilter.outputImage 
-                                     threshold:settings.skewThreshold];
-    
-    // Stage 6: Adaptive thresholding for binarization
-    CIImage *binarized = nil;
-    if (settings.useAdaptiveThreshold) {
-        binarized = [self applyAdaptiveThresholding:skewCorrected
-                                         blockSize:settings.adaptiveBlockSize
-                                         constant:settings.adaptiveConstant];
-    } else {
-        binarized = skewCorrected;
-    }
-    
-    // Stage 7: Morphological operations for cleanup
-    if (settings.useMorphological) {
-        binarized = [self applyMorphological:binarized 
-                                  kernelSize:settings.morphKernelSize
-                                  iterations:settings.morphIterations];
-    }
-    
-    return [self ciImageToNSImage:binarized];
+\textbf{Pipeline Architecture:}
+\begin{enumerate}
+\item \textbf{Noise Reduction}: Bilateral filtering with spatial and color sigma parameters
+\item \textbf{Global Enhancement}: Brightness, contrast, and saturation adjustment
+\item \textbf{Local Enhancement}: CLAHE with adaptive clipping and tile-based processing
+\item \textbf{Sharpening}: Unsharp masking with content-adaptive parameters
+\item \textbf{Geometric Correction}: Skew detection and correction
+\item \textbf{Binarization}: Adaptive thresholding or direct processing
+\item \textbf{Morphological Cleanup}: Optional noise removal and character enhancement
+\end{enumerate}
+
+The key implementation utilizes Core Image's filter chain architecture:
+
+\begin{lstlisting}[language=C,basicstyle=\footnotesize\ttfamily,frame=single,breaklines=true,columns=flexible]
+// Core preprocessing pipeline
+CIImage *processed = [self applyBilateralFilter:inputImage 
+                         spatialSigma:settings.spatialSigma];
+processed = [self applyCLAHE:processed 
+                   clipLimit:settings.claheClipLimit];
+processed = [self correctSkew:processed 
+                    threshold:settings.skewThreshold];
+
+// Conditional processing based on image characteristics
+if (settings.useAdaptiveThreshold) {
+    processed = [self applyAdaptiveThresholding:processed 
+                      blockSize:settings.adaptiveBlockSize];
 }
-\end{minted}
+\end{lstlisting}
+
+This modular approach enables real-time parameter adjustment while maintaining GPU acceleration through Core Image's optimized filter implementations.
 
 \subsubsection{Custom CLAHE Implementation}
 
-Contrast Limited Adaptive Histogram Equalization (CLAHE) provides superior local contrast enhancement compared to global histogram equalization:
+Contrast Limited Adaptive Histogram Equalization (CLAHE) provides superior local contrast enhancement compared to global histogram equalization. The implementation follows a tile-based processing approach with adaptive clipping:
 
-\begin{minted}[fontsize=\small, linenos]{objc}
-- (CIImage *)applyCLAHE:(CIImage *)inputImage 
-              clipLimit:(float)clipLimit 
-               tileSize:(CGSize)tileSize {
-    
-    // Convert to bitmap representation for pixel-level processing
-    CGImageRef cgImage = [self.ciContext createCGImage:inputImage 
-                                              fromRect:[inputImage extent]];
-    
-    // Create bitmap context for processing
-    size_t width = CGImageGetWidth(cgImage);
-    size_t height = CGImageGetHeight(cgImage);
-    size_t bytesPerRow = width * 4;
-    
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, 
-                                               bytesPerRow, colorSpace,
-                                               kCGImageAlphaPremultipliedLast);
-    
-    CGContextDrawImage(context, CGRectMake(0, 0, width, height), cgImage);
-    uint8_t *data = (uint8_t *)CGBitmapContextGetData(context);
-    
-    // Apply CLAHE algorithm
-    [self performCLAHEOnData:data width:width height:height 
-                   clipLimit:clipLimit tileSize:tileSize];
-    
-    // Create output image
-    CGImageRef resultCGImage = CGBitmapContextCreateImage(context);
-    CIImage *result = [CIImage imageWithCGImage:resultCGImage];
-    
-    // Cleanup
-    CGImageRelease(cgImage);
-    CGImageRelease(resultCGImage);
-    CGContextRelease(context);
-    CGColorSpaceRelease(colorSpace);
-    
-    return result;
-}
-\end{minted}
+\textbf{CLAHE Algorithm Implementation:}
+\begin{enumerate}
+\item \textbf{Image Conversion}: Transform CIImage to bitmap representation for pixel-level access
+\item \textbf{Tile Division}: Partition image into uniform tiles based on specified tile size
+\item \textbf{Histogram Calculation}: Compute local histograms for each tile region
+\item \textbf{Clipping}: Apply clip limit to prevent over-enhancement in uniform regions
+\item \textbf{Interpolation}: Perform bilinear interpolation between neighboring tiles
+\item \textbf{Reconstruction}: Generate output image with enhanced local contrast
+\end{enumerate}
+
+Key implementation components:
+\begin{lstlisting}[language=C,basicstyle=\footnotesize\ttfamily,frame=single,breaklines=true,columns=flexible]
+// Core CLAHE processing workflow
+CGContextRef context = CGBitmapContextCreate(NULL, width, height, 8, 
+                           bytesPerRow, colorSpace, flags);
+uint8_t *imageData = (uint8_t *)CGBitmapContextGetData(context);
+[self performCLAHEOnData:imageData width:width height:height 
+           clipLimit:clipLimit tileSize:tileSize];
+\end{lstlisting}
+
+The algorithm maintains computational efficiency through optimized memory management and leverages Core Graphics for bitmap manipulation, enabling real-time parameter adjustment during preprocessing operations.
 
 \section{User Interface Implementation for OCR Operations}
 
@@ -321,167 +275,65 @@ The application features a sophisticated dual-panel interface that provides comp
 
 \subsubsection{Image Processing Controls}
 
-The left control panel focuses on image preprocessing and OCR configuration:
+The left control panel provides a comprehensive interface for OCR configuration and image preprocessing control. The interface architecture implements a modular design pattern with distinct functional sections:
 
-\begin{minted}[fontsize=\small, linenos]{objc}
-- (void)createOCRControlPanel {
-    // Main OCR control panel container
-    NSView *ocrPanel = [[NSView alloc] initWithFrame:NSMakeRect(10, 50, 300, 600)];
-    [ocrPanel setWantsLayer:YES];
-    ocrPanel.layer.backgroundColor = [[NSColor controlBackgroundColor] CGColor];
-    ocrPanel.layer.cornerRadius = 8.0;
-    
-    // OCR Model Selection
-    NSTextField *modelLabel = [self createLabel:@"OCR Model:" 
-                                          frame:NSMakeRect(20, 560, 100, 20)];
-    [ocrPanel addSubview:modelLabel];
-    
-    self.modelPopUpButton = [[NSPopUpButton alloc] 
-                           initWithFrame:NSMakeRect(130, 558, 150, 24)];
-    [self.modelPopUpButton addItemWithTitle:@"Standard (eng)"];
-    [self.modelPopUpButton addItemWithTitle:@"Document Enhanced"];
-    [self.modelPopUpButton addItemWithTitle:@"Handwriting Specialist"];
-    [self.modelPopUpButton addItemWithTitle:@"Technical Documents"];
-    [self.modelPopUpButton addItemWithTitle:@"Forms & Tables"];
-    [self.modelPopUpButton setTarget:self];
-    [self.modelPopUpButton setAction:@selector(modelSelectionChanged:)];
-    [ocrPanel addSubview:self.modelPopUpButton];
-    
-    // Image Enhancement Controls
-    NSTextField *enhanceLabel = [self createLabel:@"Image Enhancement" 
-                                            frame:NSMakeRect(20, 520, 200, 20)];
-    [enhanceLabel setFont:[NSFont boldSystemFontOfSize:14]];
-    [ocrPanel addSubview:enhanceLabel];
-    
-    // Brightness Control
-    self.brightnessSlider = [self createSliderWithLabel:@"Brightness:" 
-                                                  frame:NSMakeRect(20, 485, 260, 35)
-                                               minValue:-50.0 maxValue:50.0 
-                                           currentValue:0.0
-                                                 target:self
-                                                 action:@selector(brightnessChanged:)];
-    [ocrPanel addSubview:self.brightnessSlider];
-    
-    // Contrast Control  
-    self.contrastSlider = [self createSliderWithLabel:@"Contrast:" 
-                                                frame:NSMakeRect(20, 440, 260, 35)
-                                             minValue:0.5 maxValue:2.0 
-                                         currentValue:1.0
-                                               target:self
-                                               action:@selector(contrastChanged:)];
-    [ocrPanel addSubview:self.contrastSlider];
-    
-    // Sharpness Control
-    self.sharpnessSlider = [self createSliderWithLabel:@"Sharpness:" 
-                                                 frame:NSMakeRect(20, 395, 260, 35)
-                                              minValue:0.0 maxValue:3.0 
-                                          currentValue:1.0
-                                                target:self
-                                                action:@selector(sharpnessChanged:)];
-    [ocrPanel addSubview:self.sharpnessSlider];
-    
-    // Advanced Options
-    self.adaptiveThresholdCheckbox = [[NSButton alloc] 
-                                    initWithFrame:NSMakeRect(20, 355, 250, 20)];
-    [self.adaptiveThresholdCheckbox setButtonType:NSButtonTypeSwitch];
-    [self.adaptiveThresholdCheckbox setTitle:@"Adaptive Threshold"];
-    [self.adaptiveThresholdCheckbox setState:NSControlStateValueOn];
-    [self.adaptiveThresholdCheckbox setTarget:self];
-    [self.adaptiveThresholdCheckbox setAction:@selector(adaptiveThresholdToggled:)];
-    [ocrPanel addSubview:self.adaptiveThresholdCheckbox];
-    
-    self.noiseReductionCheckbox = [[NSButton alloc] 
-                                 initWithFrame:NSMakeRect(20, 330, 250, 20)];
-    [self.noiseReductionCheckbox setButtonType:NSButtonTypeSwitch];
-    [self.noiseReductionCheckbox setTitle:@"Noise Reduction"];
-    [self.noiseReductionCheckbox setState:NSControlStateValueOn];
-    [self.noiseReductionCheckbox setTarget:self];
-    [self.noiseReductionCheckbox setAction:@selector(noiseReductionToggled:)];
-    [ocrPanel addSubview:self.noiseReductionCheckbox];
-    
-    // Preview and Process Buttons
-    NSButton *previewButton = [[NSButton alloc] 
-                             initWithFrame:NSMakeRect(20, 280, 120, 32)];
-    [previewButton setTitle:@"Preview"];
-    [previewButton setBezelStyle:NSBezelStyleRounded];
-    [previewButton setTarget:self];
-    [previewButton setAction:@selector(previewProcessing:)];
-    [ocrPanel addSubview:previewButton];
-    
-    NSButton *processButton = [[NSButton alloc] 
-                             initWithFrame:NSMakeRect(160, 280, 120, 32)];
-    [processButton setTitle:@"Process OCR"];
-    [processButton setBezelStyle:NSBezelStyleRounded];
-    [processButton setTarget:self];
-    [processButton setAction:@selector(processOCR:)];
-    [ocrPanel addSubview:processButton];
-    
-    [self.view addSubview:ocrPanel];
-}
-\end{minted}
+\textbf{Control Panel Architecture:}
+\begin{itemize}
+\item \textbf{Model Selection}: Dropdown menu for custom OCR model selection (Standard, Document Enhanced, Handwriting Specialist, Technical Documents, Forms \& Tables)
+\item \textbf{Image Enhancement}: Continuous sliders for brightness (-50 to +50), contrast (0.5 to 2.0), and sharpness (0.0 to 3.0) adjustment
+\item \textbf{Advanced Options}: Toggle switches for adaptive thresholding and noise reduction algorithms
+\item \textbf{Processing Controls}: Preview and process action buttons with real-time feedback
+\end{itemize}
+
+The UI implementation leverages macOS native controls with custom styling:
+
+\begin{lstlisting}[language=C,basicstyle=\footnotesize\ttfamily,frame=single,breaklines=true,columns=flexible]
+// Panel creation with custom styling
+NSView *ocrPanel = [[NSView alloc] 
+    initWithFrame:NSMakeRect(10, 50, 300, 600)];
+ocrPanel.layer.backgroundColor = 
+    [[NSColor controlBackgroundColor] CGColor];
+ocrPanel.layer.cornerRadius = 8.0;
+
+// Dynamic control creation with MVC pattern
+self.brightnessSlider = [self createSliderWithLabel:@"Brightness:" 
+                             minValue:-50.0 maxValue:50.0 
+                         currentValue:0.0 
+                               action:@selector(brightnessChanged:)];
+\end{lstlisting}
+
+Each control implements target-action patterns for immediate parameter updates, enabling real-time processing feedback and interactive parameter tuning.
 
 \subsubsection{Real-Time Parameter Adjustment}
 
-The interface implements real-time preview functionality that allows users to see the effects of preprocessing parameters immediately:
+The interface implements real-time preview functionality through a responsive event-driven architecture that provides immediate visual feedback for parameter adjustments.
 
-\begin{minted}[fontsize=\small, linenos]{objc}
-- (IBAction)brightnessChanged:(NSSlider *)sender {
-    float brightness = [sender floatValue] / 100.0; // Convert to -0.5 to +0.5 range
-    
-    // Update preprocessing settings
-    self.preprocessingSettings.brightness = brightness;
-    
-    // Update UI label
-    self.brightnessValueLabel.stringValue = [NSString stringWithFormat:@"%.1f", 
-                                           [sender floatValue]];
-    
-    // Apply real-time preview if enabled
-    if (self.realtimePreviewEnabled && self.currentImage) {
-        [self updatePreviewWithDelay:0.3]; // Debounce rapid changes
-    }
-    
-    // Log parameter change
-    NSLog(@"Brightness adjusted to: %.2f", brightness);
-}
+\textbf{Real-Time Processing Architecture:}
+\begin{enumerate}
+\item \textbf{Parameter Capture}: Slider and control events trigger immediate value updates
+\item \textbf{Settings Synchronization}: UI changes update internal preprocessing configuration objects
+\item \textbf{Debounced Processing}: Rapid parameter changes are debounced (300ms) to prevent excessive processing
+\item \textbf{Preview Generation}: Background processing applies current parameters to generate preview images
+\item \textbf{UI Updates}: Visual feedback through updated labels and preview display
+\end{enumerate}
 
-- (IBAction)contrastChanged:(NSSlider *)sender {
-    float contrast = [sender floatValue]; // Direct 0.5 to 2.0 range
-    
-    self.preprocessingSettings.contrast = contrast;
-    self.contrastValueLabel.stringValue = [NSString stringWithFormat:@"%.2f", contrast];
+The implementation follows a consistent pattern for all preprocessing parameters:
+
+\begin{lstlisting}[language=C,basicstyle=\footnotesize\ttfamily,frame=single,breaklines=true,columns=flexible]
+// Real-time parameter adjustment pattern
+- (IBAction)parameterChanged:(NSSlider *)sender {
+    float value = [sender floatValue];
+    self.preprocessingSettings.parameter = value;
+    self.parameterLabel.stringValue = 
+        [NSString stringWithFormat:@"%.2f", value];
     
     if (self.realtimePreviewEnabled && self.currentImage) {
-        [self updatePreviewWithDelay:0.3];
+        [self updatePreviewWithDelay:0.3]; // Debounce changes
     }
-    
-    NSLog(@"Contrast adjusted to: %.2f", contrast);
 }
+\end{lstlisting}
 
-- (IBAction)sharpnessChanged:(NSSlider *)sender {
-    float sharpness = [sender floatValue];
-    
-    self.preprocessingSettings.sharpness = sharpness;
-    self.sharpnessValueLabel.stringValue = [NSString stringWithFormat:@"%.2f", sharpness];
-    
-    if (self.realtimePreviewEnabled && self.currentImage) {
-        [self updatePreviewWithDelay:0.3];
-    }
-    
-    NSLog(@"Sharpness adjusted to: %.2f", sharpness);
-}
-
-- (void)updatePreviewWithDelay:(NSTimeInterval)delay {
-    // Cancel previous delayed calls
-    [NSObject cancelPreviousPerformRequestsWithTarget:self 
-                                             selector:@selector(performPreviewUpdate) 
-                                               object:nil];
-    
-    // Schedule new preview update
-    [self performSelector:@selector(performPreviewUpdate) 
-               withObject:nil 
-               afterDelay:delay];
-}
-\end{minted}
+The debouncing mechanism prevents excessive processing during rapid slider movements while maintaining responsive user interaction. This approach balances real-time feedback with computational efficiency, enabling smooth parameter tuning without system performance degradation.
 
 \section{Performance Analysis and Optimization}
 
@@ -493,7 +345,7 @@ The effectiveness of the OCR implementation is evaluated through comprehensive t
 \centering
 \caption{OCR Performance Analysis Across Different Content Types}
 \label{tab:ocr_performance}
-\adjustbox{width=\textwidth,center}
+\adjustbox{max width=\textwidth,center}
 {\begin{tabular}{lcccc}
 \toprule
 \textbf{Content Type} & \textbf{Char Acc (\%)} & \textbf{Word Acc (\%)} & \textbf{Time (ms)} & \textbf{Model} \\
@@ -516,10 +368,10 @@ Processing efficiency represents a critical factor in user experience and system
 
 \begin{table}[H]
 \centering
-\small
 \caption{Performance Optimization Results}
 \label{tab:optimization_results}
-\begin{tabular}{lccc}
+\adjustbox{max width=\textwidth,center}
+{\begin{tabular}{lccc}
 \toprule
 \textbf{Technique} & \textbf{Time Reduction} & \textbf{Accuracy Impact} & \textbf{Implementation} \\
 \midrule
@@ -529,7 +381,7 @@ Intelligent Caching & 60\% & None & Image cache \\
 Adaptive Processing & 25\% & +2.1\% & Context-aware params \\
 Model Quantization & 30\% & -0.8\% & 16-bit precision \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 The combined optimization techniques achieve a 78\% reduction in average processing time compared to the baseline implementation, while maintaining or improving recognition accuracy through intelligent parameter adaptation.
@@ -540,10 +392,10 @@ The OCR implementation incorporates sophisticated memory management strategies t
 
 \begin{table}[H]
 \centering
-\small
 \caption{Memory Usage Analysis for Different OCR Operations}
 \label{tab:memory_usage}
-\begin{tabular}{lccc}
+\adjustbox{max width=\textwidth,center}
+{\begin{tabular}{lccc}
 \toprule
 \textbf{Operation} & \textbf{Peak Mem (MB)} & \textbf{Avg Mem (MB)} & \textbf{Efficiency} \\
 \midrule
@@ -553,7 +405,7 @@ Text Recognition & 89 & 76 & Medium \\
 Multiple Models & 267 & 245 & Medium \\
 Batch Processing & 156 & 134 & High \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \end{table}
 
 \section{Integration with System Architecture}
