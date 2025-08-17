@@ -53,8 +53,8 @@ To maximize training effectiveness and model generalization, we implemented a co
 \midrule
 Geometric Transform & Rotation: ±15°, Scale: 0.8-1.2× & Simulates scanning variations \\
 Photometric Variation & Brightness: ±25\%, Contrast: 0.7-1.4× & Handles lighting conditions \\
-Noise Injection & Gaussian: σ=0.01-0.05, S\&P: 0.1\% & Simulates sensor noise \\
-Blur Simulation & Motion: 3-7px, Gaussian: σ=0.5-2.0 & Replicates camera effects \\
+Noise Injection & Gaussian: $\sigma$=0.01-0.05, S\&P: 0.1\% & Simulates sensor noise \\
+Blur Simulation & Motion: 3-7px, Gaussian: $\sigma$=0.5-2.0 & Replicates camera effects \\
 Perspective Distortion & Quadrilateral: ±10\% displacement & Models viewing angles \\
 \bottomrule
 \end{tabular}}
@@ -116,12 +116,12 @@ The model training process incorporates several advanced optimization techniques
 \toprule
 \textbf{Parameter} & \textbf{Value} & \textbf{Implementation} \\
 \midrule
-Learning Rate & 0.001→0.0001 & Exponential decay (γ=0.95) \\
+Learning Rate & 0.001$\rightarrow$0.0001 & Exponential decay ($\gamma$=0.95) \\
 Batch Size & 32 & Memory-gradient balance \\
 Sequence Length & 128 characters & Document line coverage \\
 Training Epochs & 200 (max) & Early stopping (patience=15) \\
 Loss Function & CTC Loss & Alignment-free learning \\
-Optimizer & Adam & β₁=0.9, β₂=0.999, ε=1e-8 \\
+Optimizer & Adam & $\beta_1$=0.9, $\beta_2$=0.999, $\varepsilon$=1e-8 \\
 Gradient Clipping & Norm: 5.0 & Prevents explosion \\
 \bottomrule
 \end{tabular}}
@@ -169,13 +169,16 @@ tesseract training_sample.tiff training_sample --psm 6 lstm.train
 # Combine multiple LSTMF files into training set
 combine_tessdata -u eng.traineddata eng.
 lstmtraining --traineddata eng/eng.traineddata \
-  --net_spec '[1,36,0,1 Ct3,3,16 Mp3,3 Lfys48 Lfx96 Lrx96 Lfx256 O1c111]' \
-  --model_output output/custom --train_listfile train_list.txt \
-  --eval_listfile eval_list.txt --max_iterations 10000 \
+  --net_spec '[1,36,0,1 Ct3,3,16 Mp3,3 Lfys48 Lfx96 \
+               Lrx96 Lfx256 O1c111]' \
+  --model_output output/custom \
+  --train_listfile train_list.txt \
+  --eval_listfile eval_list.txt \
+  --max_iterations 10000 \
   --learning_rate 0.0001 --net_mode 192
 \end{verbatim}
 
-\section{Advanced Image Preprocessing Implementation}
+\section{Image Preprocessing Implementation}
 
 \subsection{Multi-Stage Preprocessing Pipeline}
 
@@ -194,7 +197,7 @@ The preprocessing system analyzes input images to determine optimal enhancement 
 \toprule
 \textbf{Technique} & \textbf{Algorithm} & \textbf{Parameters} \\
 \midrule
-Noise Reduction & Bilateral Filter & Spatial σ=75, Color σ=75 \\
+Noise Reduction & Bilateral Filter & Spatial $\sigma$=75, Color $\sigma$=75 \\
 Contrast Enhancement & CLAHE & Clip: 2.0-4.0, Tile: 8×8px \\
 Adaptive Thresholding & Otsu + Gaussian & Block: 11-31px, C: 2-10 \\
 Sharpening & Unsharp Mask & Amount: 0.5-2.0, Radius: 1-3px \\
