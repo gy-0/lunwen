@@ -1,0 +1,167 @@
+\chapter{Text-Driven Image Generation}
+
+This chapter presents the text-driven image generation component that converts optimized textual prompts into high-quality images through the FLUX family of diffusion models. Building upon Chapter 5, where OCR text is transformed into style-aware prompts using a locally deployed GPT-OSS 20B, we describe how these prompts are consumed by the generation subsystem, how the macOS app exposes controls in the user interface, and how the end-to-end pipeline is orchestrated. We also provide IEEE-style figures, a flowchart of the data path, and tables of parameters and ablations.
+
+\section{System Overview}
+The generation subsystem is implemented in Objective-C/Cocoa and integrated into the Screenshot-OCR app. The core responsibilities are:
+\begin{itemize}
+    \item Model Invocation: Submit the optimized prompt and optional parameters (e.g., aspect ratio) to the FLUX image generation endpoint and retrieve the resulting image.
+    \item User Interaction: Expose controls for style selection, aspect ratio, and safety tolerance; display generated images; provide copy/save actions from the UI.
+    \item Reliability and UX: Handle errors, rate limiting, and in-progress feedback while keeping the interface responsive via asynchronous requests and polling.
+\end{itemize}
+
+\subsection{End-to-end Data Flow}
+Figure~\ref{fig:gen-flow} outlines the full path from OCR text to generated image. Chapter~5 produces a style-aware prompt; this chapter focuses on the downstream generation path.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  node distance=10mm and 14mm,
+  box/.style={draw, rounded corners, align=center, minimum width=32mm, minimum height=9mm, fill=lightblue},
+  proc/.style={draw, rounded corners, align=center, minimum width=38mm, minimum height=11mm, fill=lightgreen},
+  io/.style={draw, rounded corners, align=center, minimum width=32mm, minimum height=9mm, fill=lightyellow},
+  ->,>=Stealth
+]
+\node[io] (img) {Input Image};
+\node[proc, right=of img] (ocr) {OCR +\newline Preprocessing};
+\node[box, right=of ocr] (prompt) {Prompt Optimization\newline (GPT-OSS 20B)};
+\node[proc, right=of prompt] (gen) {FLUX Generation\newline (Diffusion)};
+\node[io, right=of gen] (out) {Generated Image};
+
+\draw (img) -- (ocr);
+\draw (ocr) -- (prompt);
+\draw (prompt) -- node[above]{prompt, style, AR} (gen);
+\draw (gen) -- (out);
+\end{tikzpicture}
+\caption{End-to-end flow from OCR to generated image. This chapter describes the right-hand (generation) stages.}
+\label{fig:gen-flow}
+\end{figure}
+
+\section{User Interface and Controls}
+The macOS UI provides two modern panels: Image Processing (contrast, brightness, model choice) and Image Generation (style, aspect ratio, prompt preview). The generation panel supports:
+\begin{itemize}
+    \item Style Selector: Predefined styles (Realistic, Artistic, Minimal, Vintage, Modern, Photographic, Illustration) map to style prompts and quality/creativity defaults.
+    \item Aspect Ratio: Free-form input (e.g., 16:9, 1:1, 3:2) forwarded to the generator.
+    \item Actions: Generate Image, Copy Image, Save Image As…. Context menu on the preview image enables quick copy/save.
+\end{itemize}
+
+Figure~\ref{fig:ui-layout} illustrates the app layout as implemented in the controller, showing the two panels and their key controls.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+  every node/.style={align=left, font=\small},
+  panel/.style={draw, rounded corners, fill=white, minimum width=55mm, minimum height=35mm}
+]
+\node[panel, label=above:{\textbf{🔧 Image Processing}}] (left) {
+  \begin{minipage}{0.9\linewidth}
+  • OCR Model selector\\
+  • Contrast / Brightness sliders\\
+  • Adaptive threshold toggle\\
+  • Re-run OCR button
+  \end{minipage}
+};
+\node[panel, right=30mm of left, label=above:{\textbf{🎨 Image Generation}}] (right) {
+  \begin{minipage}{0.9\linewidth}
+  • Style selector (maps to style prompt)\\
+  • Aspect ratio (e.g., 16:9)\\
+  • Optimized prompt preview\\
+  • Generate Image button\\
+  • Copy / Save context menu on preview
+  \end{minipage}
+};
+\draw[dashed] (left) -- (right) node[midway, above]{OCR text \textrightarrow{} style-aware prompt};
+\end{tikzpicture}
+\caption{Schematic of app UI panels and controls for generation.}
+\label{fig:ui-layout}
+\end{figure}
+
+\section{Generation Backend and API Integration}
+The class \texttt{SLImageGenerationService} encapsulates the request lifecycle: request creation, submission, polling, and image download. The service reads the API key from \texttt{BFL\_API\_KEY} and targets the FLUX endpoint \texttt{/flux-pro-1.1-ultra}.
+
+\subsection{Request Construction}
+Prompts are extended by the controller to reflect style, quality, and creativity (see Section~\ref{sec:style-mapping}). Requests include output format, safety tolerance, and optional aspect ratio.
+
+\begin{lstlisting}[language=C, basicstyle=\ttfamily\small, caption={Core generation request (abridged).}, label={lst:request}]
+// URL: https://api.bfl.ai/v1/flux-pro-1.1-ultra
+NSMutableDictionary *body = [@{
+  @"prompt": finalPrompt,
+  @"output_format": @"jpeg",
+  @"safety_tolerance": @2
+} mutableCopy];
+if (aspectRatio.length > 0) {
+  body[@"aspect_ratio"] = aspectRatio; // e.g., "16:9"
+}
+// POST body as JSON; auth via x-key: BFL_API_KEY
+\end{lstlisting}
+
+\subsection{Asynchronous Result Polling}
+Requests return a request ID; the service polls \texttt{/get\_result?id=...} until status is \texttt{Ready}. When ready, the resulting image URL is downloaded with cache disabled to ensure freshness.
+
+\begin{lstlisting}[language=C, basicstyle=\ttfamily\small, caption={Polling and retrieval (abridged).}, label={lst:poll}]
+if ([status isEqualToString:@"Ready"]) {
+  NSString *imageURL = response[@"result"][@"sample"]; 
+  [self downloadImageFromURL:imageURL ...];
+} else {
+  // 500ms backoff, then poll again
+}
+\end{lstlisting}
+
+\section{Prompt-to-Style Mapping}\label{sec:style-mapping}
+UI style presets map user intent to generation controls and textual modifiers. The controller builds the final prompt by appending quality/creativity descriptors and technical tags compatible with FLUX while keeping the style prompt concise.
+
+\begin{table}[H]
+\centering
+\caption{Style presets and parameterization used by the UI.}
+\label{tab:styles}
+\begin{tabular}{P{2.7cm} P{4.2cm} P{1.6cm} P{1.8cm} P{1.6cm}}
+\toprule
+\textbf{Name} & \textbf{Style Prompt (snippet)} & \textbf{Quality} & \textbf{Creativity} & \textbf{Default AR} \\
+\midrule
+Realistic & high quality, photorealistic, detailed & 0.9 & 0.3 & 16:9 \\
+Artistic & artistic, expressive, vibrant colors & 0.8 & 0.8 & 1:1 \\
+Minimal & minimalist, clean, simple & 0.8 & 0.4 & 4:3 \\
+Vintage & retro, sepia tones, nostalgic & 0.7 & 0.6 & 4:3 \\
+Modern & contemporary, sleek, high-tech & 0.9 & 0.5 & 16:9 \\
+Photographic & studio lighting, sharp focus & 0.95 & 0.3 & 3:2 \\
+Illustration & digital illustration, vector art & 0.8 & 0.7 & 1:1 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent The final prompt composition logic follows: if quality $> 0.8$ append ``ultra high quality, masterpiece''; if creativity $> 0.7$ append ``creative, imaginative, unique perspective''; otherwise use milder modifiers. Technical tags (e.g., ``detailed, professional'') stabilize output.
+
+\section{Ablation and Parameter Effects}
+We summarize qualitative effects observed during development when varying key controls. Although chapter-level quantitative metrics are out of scope here, prior literature corroborates these trends for diffusion-based generation.
+
+\begin{table}[H]
+\centering
+\caption{Observed effects of parameters on outputs.}
+\label{tab:effects}
+\begin{tabular}{P{3.0cm} P{10.0cm}}
+\toprule
+\textbf{Parameter} & \textbf{Typical Effect} \\
+\midrule
+Style preset & Constrains composition and texture; improves consistency with domain aesthetics. \\
+Aspect ratio & Controls framing; wider AR favors landscapes, square AR favors centered subjects. \\
+Quality (0--1) & Higher values yield sharper textures and more stable details. \\
+Creativity (0--1) & Higher values increase variation, novelty, and composition diversity. \\
+Safety tolerance & Modulates filtering; lower values are more conservative. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Evaluation Notes}
+We evaluate generated images along two axes: semantic alignment with the optimized prompt and perceptual quality. In practice, prompt alignment benefits from compact style descriptors and clear subject constraints, while perceptual quality improves with photometric hints (lighting, depth-of-field) and appropriate aspect ratios. Classical text-to-image baselines (StackGAN~\cite{zhang2017stackgan}, AttnGAN~\cite{xu2018attngan}) demonstrate the importance of fine-grained text conditioning; modern latent diffusion methods (LDM) further improve fidelity and scalability~\cite{rombach2022ldm}.
+
+\section{Implementation Summary}
+The following summarizes how the code implements the above:
+\begin{itemize}
+  \item Controller: Builds a style-aware prompt, previews it, and calls the generation service with the selected aspect ratio. It wires UI actions (Generate, Copy, Save) to the corresponding handlers.
+  \item Service: Submits requests with \texttt{x-key} authentication, polls for completion, and downloads the final JPEG sample without caching.
+  \item UX: Buttons are disabled while in-flight; alerts provide error feedback (e.g., credits, rate-limits); the preview image supports a context menu for copy/save.
+\end{itemize}
+
+\section{Conclusions}
+With a style-aware prompt from Chapter~5 and the generation subsystem described here, the application delivers an integrated ``text $\rightarrow$ image'' experience on macOS. Style presets give users a concise control surface, while aspect ratio and safety parameters allow task-specific refinement. The service abstraction cleanly separates UI from network orchestration and can be extended to support additional FLUX endpoints or model variants.
+

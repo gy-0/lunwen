@@ -19,13 +19,12 @@ The system employs Ollama, a sophisticated local language model deployment frame
 \toprule
 \textbf{Component} & \textbf{Specification} \\
 \midrule
-Framework & Ollama 0.4.2 (macOS native) \\
+Framework & Ollama 0.4.2  \\
 Model Architecture & GPT-OSS-20B (21B parameters, MoE) \\
 Memory Requirements & 16GB RAM minimum, 32GB recommended \\
 Storage Requirements & 12GB for model weights (MXFP4 quantized) \\
-Processing Backend & Metal Performance Shaders (macOS GPU acceleration) \\
 Context Window & 128,000 tokens maximum \\
-Inference Speed & 15-25 tokens/second (Apple M2 Pro) \\
+Inference Speed & 15-25 tokens/second (Apple M3 Pro) \\
 Batch Processing & Up to 8 concurrent requests \\
 API Interface & HTTP REST API (localhost:11434) \\
 Model Loading Time & 15-30 seconds (cold start) \\
@@ -49,7 +48,7 @@ The GPT-OSS-20B model represents a state-of-the-art mixture-of-experts architect
 \textbf{Feature} & \textbf{Specification} \\
 \midrule
 Total Parameters & 21 billion (3.6B active per token) \\
-Architecture & Mixture of Experts (MoE) transformer \\
+Architecture & MoE transformer \\
 Expert Count & 16 experts, 2 active per token \\
 Hidden Dimensions & 4096 (model), 11008 (feedforward) \\
 Attention Heads & 32 heads, 128 dimensions each \\
@@ -72,7 +71,6 @@ The system implements a sophisticated local deployment architecture that integra
 
 The prompt optimization service follows a layered architecture pattern that separates concerns and enables efficient resource management:
 
-[Placeholder for Figure 5.1: Local LLM Service Architecture Diagram showing Ollama integration, API layers, and service interfaces]
 
 The architecture implements several key design patterns:
 
@@ -112,49 +110,6 @@ The integration with Ollama is implemented through a custom service class that a
 The service interface provides three primary optimization functions: basic prompt optimization for image generation, style-specific prompt optimization with custom style parameters, and OCR error correction for improved text quality before prompt generation.
 
 \section{Multi-Stage Prompt Enhancement System}
-
-\subsection{Two-Stage Processing Architecture}
-
-The prompt optimization system employs a two-stage processing architecture that combines the natural language understanding capabilities of locally deployed GPT-OSS-20B with style configuration modules. This approach leverages both semantic text understanding and style-specific formatting to create enhanced prompts suitable for image generation models.
-
-\begin{figure}[H]
-    \centering
-    \begin{tikzpicture}[
-        node distance=2cm,
-        every node/.style={align=center, minimum width=2.5cm, minimum height=1cm},
-        process/.style={rectangle, draw, thick, fill=lightblue},
-        data/.style={rectangle, draw, thick, fill=lightgreen, rounded corners},
-        llm/.style={rectangle, draw, thick, fill=yellow!30, minimum width=3.5cm, minimum height=1.5cm},
-        style/.style={rectangle, draw, thick, fill=orange!30, minimum width=3cm, minimum height=1cm},
-        arrow/.style={->, thick}
-    ]
-    
-    % Enhanced pipeline
-    \node[data] (input) {Raw OCR\\Output};
-    \node[process, below left=of input] (context) {Context\\Analysis};
-    \node[llm, below=of input] (llm) {GPT-OSS-20B\\Semantic Enhancement};
-    \node[process, below right=of input] (preprocess) {OCR Error\\Correction};
-    \node[style, below=of llm] (style) {Multi-Dimensional\\Style Integration};
-    \node[process, below left=of style] (quality) {Quality\\Optimization};
-    \node[process, below right=of style] (validation) {Prompt\\Validation};
-    \node[data, below=of style] (output) {Optimized\\Generation Prompt};
-    
-    % Arrows
-    \draw[arrow] (input) -- (context);
-    \draw[arrow] (input) -- (llm);
-    \draw[arrow] (input) -- (preprocess);
-    \draw[arrow] (context) -- (llm);
-    \draw[arrow] (preprocess) -- (llm);
-    \draw[arrow] (llm) -- (style);
-    \draw[arrow] (style) -- (quality);
-    \draw[arrow] (style) -- (validation);
-    \draw[arrow] (quality) -- (output);
-    \draw[arrow] (validation) -- (output);
-    
-    \end{tikzpicture}
-    \caption{Two-Stage Prompt Enhancement Architecture}
-    \label{fig:prompt_pipeline}
-\end{figure}
 
 \subsection{Prompt Engineering Strategy}
 

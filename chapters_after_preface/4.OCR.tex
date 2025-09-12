@@ -212,7 +212,6 @@ The adaptive preprocessing pipeline utilizes image quality metrics to determine 
 
 The Core Image-based preprocessing implementation leverages macOS's optimized image processing capabilities through a multi-stage pipeline. The core preprocessing workflow integrates seven sequential enhancement stages:
 
-\textbf{Pipeline Architecture:}
 \begin{enumerate}
 \item \textbf{Noise Reduction}: Bilateral filtering with spatial and color sigma parameters
 \item \textbf{Global Enhancement}: Brightness, contrast, and saturation adjustment
@@ -247,7 +246,6 @@ This modular approach enables real-time parameter adjustment while maintaining G
 
 Contrast Limited Adaptive Histogram Equalization (CLAHE) provides superior local contrast enhancement compared to global histogram equalization. The implementation follows a tile-based processing approach with adaptive clipping:
 
-\textbf{CLAHE Algorithm Implementation:}
 \begin{enumerate}
 \item \textbf{Image Conversion}: Transform CIImage to bitmap representation for pixel-level access
 \item \textbf{Tile Division}: Partition image into uniform tiles based on specified tile size
@@ -408,170 +406,6 @@ Batch Processing & 156 & 134 & High \\
 \bottomrule
 \end{tabular}}
 \end{table}
-
-\section{OCR Processing Workflow and Error Handling}
-
-\subsection{Complete Processing Workflow}
-
-The OCR implementation follows a comprehensive workflow that encompasses user interaction, image processing, text recognition, and error recovery. The workflow is designed to provide robust operation while maintaining user experience quality.
-
-\subsubsection{Primary Processing Pipeline}
-
-The OCR workflow consists of five distinct phases that handle the complete text recognition process:
-
-\textbf{Phase 1: Image Selection and Validation}
-\begin{enumerate}
-\item User triggers image selection via \texttt{ButtonPressed:} IBAction
-\item System presents NSOpenPanel with file type filtering
-\item Selected images undergo format validation (TIFF, PNG, JPEG support)
-\item Image dimensions and corruption detection performed
-\item Valid images loaded into \texttt{ssImageView} for display
-\end{enumerate}
-
-\textbf{Phase 2: Preprocessing Configuration}
-\begin{enumerate}
-\item User adjusts preprocessing parameters via \texttt{processingParameterChanged:} IBAction
-\item System updates internal settings: contrast (0.5-2.0), brightness (-50 to +50), sharpness (0.0-3.0)
-\item Real-time preview generated through \texttt{reprocessCurrentImage} method
-\item Adaptive thresholding and noise reduction flags configured
-\end{enumerate}
-
-\textbf{Phase 3: Image Preprocessing Execution}
-\begin{enumerate}
-\item \texttt{SLImageProcessor} applies multi-stage enhancement pipeline
-\item Bilateral filtering for noise reduction with spatial $\sigma$=75
-\item CLAHE contrast enhancement with adaptive clipping
-\item Geometric corrections and sharpening filters applied
-\item Processed image displayed in \texttt{processedImageView}
-\end{enumerate}
-
-\textbf{Phase 4: OCR Model Selection and Recognition}
-\begin{enumerate}
-\item User selects OCR model via \texttt{ocrModelChanged:} IBAction
-\item Available models: English, Enhanced English, Numbers Only, Multi-language
-\item \texttt{SLTesseract} configures LSTM model with selected parameters
-\item Text recognition performed on preprocessed image
-\item Results populated in \texttt{resultTextField}
-\end{enumerate}
-
-\textbf{Phase 5: OCR Results Processing and Export}
-\begin{enumerate}
-\item Recognized text populated in \texttt{resultTextField} for user review
-\item Text validation and post-processing corrections applied
-\item OCR confidence scores calculated and displayed
-\item Results made available for subsequent processing or export
-\end{enumerate}
-
-\subsection{OCR Error Handling Implementation}
-
-The OCR system implements comprehensive error handling to ensure robust text recognition operation and provide meaningful feedback for OCR-specific failures.
-
-\subsubsection{Image Processing Error Recovery}
-
-The image processing pipeline incorporates extensive validation and error recovery mechanisms:
-
-\begin{lstlisting}[language=C,basicstyle=\footnotesize\ttfamily,frame=single,breaklines=true,columns=flexible,showspaces=false,showstringspaces=false]
-// Image validation and error handling
-- (NSImage *)preprocessImage:(NSImage *)image {
-    if (!image) {
-        NSLog(@"Error: Input image is null");
-        return nil;
-    }
-    
-    // Dimension validation
-    if (image.size.width <= 0 || image.size.height <= 0) {
-        NSLog(@"Error: Invalid image dimensions");
-        return nil;
-    }
-    
-    @try {
-        // Core preprocessing pipeline
-        CIImage *processed = [self applyFilters:image];
-        return [self convertToNSImage:processed];
-    }
-    @catch (NSException *exception) {
-        NSLog(@"Preprocessing error: %@", exception);
-        return image; // Return original image as fallback
-    }
-}
-\end{lstlisting}
-
-\subsubsection{OCR Recognition Error Handling}
-
-The Tesseract integration includes comprehensive error handling for recognition failures:
-
-\begin{lstlisting}[language=C,basicstyle=\footnotesize\ttfamily,frame=single,breaklines=true,columns=flexible,showspaces=false,showstringspaces=false]
-// Tesseract OCR error handling
-@try {
-    _tesseract->SetImage(pix);
-    char *text = _tesseract->GetUTF8Text();
-    if (!text || strlen(text) == 0) {
-        NSLog(@"Warning: No text recognized in image");
-        return @""; // Return empty string instead of crash
-    }
-    return [NSString stringWithUTF8String:text];
-}
-@catch (NSException *exception) {
-    NSLog(@"ERROR: OCR recognition failed: %@", exception);
-    return @"OCR processing failed. Please try different settings.";
-}
-\end{lstlisting}
-
-\subsubsection{OCR Model Management Error Handling}
-
-The OCR model management system includes validation for model availability and configuration:
-
-\begin{lstlisting}[language=C,basicstyle=\footnotesize\ttfamily,frame=single,breaklines=true,columns=flexible,showspaces=false,showstringspaces=false]
-// OCR model installation and validation
-NSError *error;
-BOOL success = [[NSFileManager defaultManager] copyItemAtURL:modelURL 
-                                                       toURL:destinationURL 
-                                                       error:&error];
-if (success) {
-    NSLog(@"Custom model installed: %@", modelURL.lastPathComponent);
-} else {
-    NSLog(@"Failed to install model: %@", error.localizedDescription);
-    // Fallback to default English model
-    self.currentOCRModel = self.defaultEnglishModel;
-}
-
-// Model selection validation
-- (IBAction)ocrModelChanged:(NSPopUpButton *)sender {
-    SLOCRModel *selectedModel = sender.selectedItem.representedObject;
-    if (selectedModel && [self validateModelAvailability:selectedModel]) {
-        self.currentOCRModel = selectedModel;
-        NSLog(@"OCR model changed to: %@", selectedModel.name);
-    } else {
-        NSLog(@"Selected model unavailable, keeping current model");
-    }
-}
-\end{lstlisting}
-
-\subsubsection{User Interface Error Feedback}
-
-The system provides comprehensive user feedback through modal alerts and status indicators:
-
-\begin{table}[H]
-\centering
-\caption{OCR Error Handling Strategies and User Feedback Mechanisms}
-\label{tab:ocr_error_handling}
-\adjustbox{max width=\textwidth,center}
-{\begin{tabular}{lll}
-\toprule
-\textbf{Error Type} & \textbf{Handling Strategy} & \textbf{User Feedback} \\
-\midrule
-Image Loading Failure & Format validation, fallback & Alert dialog with retry option \\
-Invalid Image Dimensions & Dimension check, rejection & Error message with requirements \\
-Preprocessing Failure & Parameter reset, original image & Warning with suggested settings \\
-OCR Recognition Failure & Model switching, retry & Error message with model suggestions \\
-Model Loading Error & Default model fallback & Model unavailable notification \\
-Empty Recognition Result & Confidence threshold, retry & Suggestion to adjust parameters \\
-Memory Allocation Error & Image resize, garbage collection & Performance warning dialog \\
-\bottomrule
-\end{tabular}}
-\end{table}
-
-The OCR error handling implementation ensures that text recognition failures are gracefully managed while providing users with actionable feedback for improving recognition accuracy. Recovery mechanisms maintain application stability and prevent processing interruptions during OCR operations.
 
 \section{Integration with System Architecture}
 

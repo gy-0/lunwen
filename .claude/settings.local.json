@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/gaoyuan/Tesseract-macOS-master/Screenshot-OCR/**)",
+      "WebSearch"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
