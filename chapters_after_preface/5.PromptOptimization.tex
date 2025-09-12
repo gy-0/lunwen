@@ -222,15 +222,14 @@ The system implements a comprehensive style management system with seven predefi
 \adjustbox{max width=\textwidth,center}
 {\begin{tabular}{llccc}
 \toprule
-\textbf{Style Name} & \textbf{Style Prompt} & \textbf{Quality} & \textbf{Creativity} & \textbf{Aspect Ratio} \\
+\textbf{Style Name} & \textbf{Style Prompt} & \textbf{Quality} & \textbf{Creativity} \\
 \midrule
-Realistic & "high quality, photorealistic, detailed" & 0.9 & 0.3 & 16:9 \\
-Artistic & "artistic, creative, expressive, vibrant colors" & 0.8 & 0.8 & 1:1 \\
-Minimal & "minimalist, clean, simple, elegant" & 0.8 & 0.4 & 4:3 \\
-Vintage & "vintage, retro, aged, classic, sepia tones" & 0.7 & 0.6 & 4:3 \\
-Modern & "modern, contemporary, sleek, high-tech" & 0.9 & 0.5 & 16:9 \\
-Photographic & "professional photography, studio lighting" & 0.95 & 0.3 & 3:2 \\
-Illustration & "digital illustration, vector art, clean lines" & 0.8 & 0.7 & 1:1 \\
+Realistic & high quality, photorealistic, detailed & 0.9 & 0.3 \\
+Artistic & artistic, creative, expressive, vibrant colors & 0.8 & 0.8 \\
+Minimal & minimalist, clean, simple, elegant & 0.8 & 0.4  \\
+Vintage & vintage, retro, aged, classic, sepia tones & 0.7 & 0.6  \\
+Modern & modern, contemporary, sleek, high-tech & 0.9 & 0.5  \\
+Illustration & digital illustration, vector art, clean lines & 0.8 & 0.7  \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -250,18 +249,18 @@ The following examples demonstrate the complete prompt optimization process from
 \toprule
 \textbf{OCR Input} & \textbf{GPT-OSS-20B Enhanced} & \textbf{Style Config} & \textbf{Final Optimized Prompt} \\
 \midrule
-"Meetlng at 3pm boardmom" & "Executive team conducting strategic planning session in contemporary glass-walled conference room" & Photographic (Q:0.95, C:0.3) & "Executive team conducting strategic planning session in contemporary glass-walled conference room, professional photography, studio lighting, sharp focus, high resolution, ultra high quality, masterpiece, 8K resolution" \\
+"Meeting at 3pm boardroom" & "Executive team conducting strategic planning session in contemporary glass-walled conference room" & Photographic (Q:0.95, C:0.3) & "Executive team conducting strategic planning session in contemporary glass-walled conference room, professional photography, studio lighting, sharp focus, high resolution, ultra high quality, masterpiece, 8K resolution" \\
 \midrule
-"Sunset over mountian vieW" & "Majestic alpine landscape bathed in golden hour illumination with dramatic cloud formations" & Artistic (Q:0.8, C:0.8) & "Majestic alpine landscape bathed in golden hour illumination with dramatic cloud formations, artistic, creative, expressive, vibrant colors, dynamic composition, creative, imaginative, unique perspective" \\
+"Sunset mountain view" & "Majestic alpine landscape bathed in golden hour illumination with dramatic cloud formations" & Artistic (Q:0.8, C:0.8) & "Majestic alpine landscape bathed in golden hour illumination with dramatic cloud formations, artistic, creative, expressive, vibrant colors, dynamic composition, creative, imaginative, unique perspective" \\
 \midrule
-"Modem coffee shop interi0r design" & "Minimalist Scandinavian-inspired cafe with geometric furniture and natural lighting" & Minimal (Q:0.8, C:0.4) & "Minimalist Scandinavian-inspired cafe with geometric furniture and natural lighting, minimalist, clean, simple, elegant, white background, modern design, architectural photography" \\
+"Modern coffee shop interior" & "Minimalist Scandinavian-inspired cafe with geometric furniture and natural lighting" & Minimal (Q:0.8, C:0.4) & "Minimalist Scandinavian-inspired cafe with geometric furniture and natural lighting, minimalist, clean, simple, elegant, white background, modern design, architectural photography" \\
 \midrule
-"CIassic car rest0ration w0rksh0p" & "Artisan craftsman meticulously restoring vintage automobile in heritage workshop environment" & Vintage (Q:0.7, C:0.6) & "Artisan craftsman meticulously restoring vintage automobile in heritage workshop environment, vintage, retro, aged, classic, sepia tones, nostalgic, film photography, cinematic lighting" \\
+"Classic car restoration workshop" & "Artisan craftsman meticulously restoring vintage automobile in heritage workshop environment" & Vintage (Q:0.7, C:0.6) & "Artisan craftsman meticulously restoring vintage automobile in heritage workshop environment, vintage, retro, aged, classic, sepia tones, nostalgic, film photography, cinematic lighting" \\
 \bottomrule
 \end{tabular}}
-\end{table>
+\end{table}
 
-These examples demonstrate the enhancement capabilities of the two-stage processing system, where the GPT-OSS-20B model successfully corrects common OCR errors (such as "Meetlng"→"Meeting", "mountian"→"mountain", "interi0r"→"interior", "CIassic"→"Classic", "0"→"o") while enhancing semantic content and applying style-specific formatting with quality scores (Q) and creativity parameters (C) calibrated for different visual styles.
+These examples demonstrate the enhancement capabilities of the two-stage processing system, where the GPT-OSS-20B model's semantic understanding is combined with the style configuration system to produce optimized prompts with quality scores (Q) and creativity parameters (C) calibrated for different visual styles.
 
 \subsubsection{Implementation Integration}
 
@@ -269,22 +268,21 @@ The actual implementation integrates with the existing codebase through the `SLA
 
 \begin{table}[H]
 \centering
-\caption{Common OCR Error Types and GPT-OSS-20B Correction Examples}
-\label{tab:ocr_error_correction}
+\caption{Implementation Comparison: Actual vs. Theoretical}
+\label{tab:implementation_comparison}
 \adjustbox{max width=\textwidth,center}
 {\begin{tabular}{lll}
 \toprule
-\textbf{Error Type} & \textbf{OCR Input Example} & \textbf{GPT-OSS-20B Corrected Output} \\
+\textbf{Aspect} & \textbf{Theoretical Approach} & \textbf{Actual Implementation} \\
 \midrule
-Character Substitution & "rneeting in the boardroorn" & "meeting in the boardroom" \\
-Number/Letter Confusion & "5unset 0ver the m0untain" & "sunset over the mountain" \\
-Case Mix-up & "CofFEe sH0P iNtErIoR" & "coffee shop interior" \\
-Missing Spaces & "vintagecars restoration" & "vintage cars restoration" \\
-Extra Characters & "moder-n archit.ecture design" & "modern architecture design" \\
-Word Boundary Issues & "art ist working instudio" & "artist working in studio" \\
+Text Processing & Multi-stage pipeline & Single LLM call \\
+Error Correction & Dedicated correction stage & Implicit in LLM prompt \\
+Enhancement & Semantic analysis modules & Prompt instruction \\
+Style Integration & Template systems & String concatenation \\
+Quality Control & Validation metrics & User feedback \\
 \bottomrule
 \end{tabular}}
-\end{table>
+\end{table}
 
 \section{Practical Implementation Approach}
 
@@ -592,7 +590,6 @@ Memory Exhaustion & Resource monitoring & Memory cleanup, batch size reduction \
 Invalid Input Format & Input validation & Format correction, user notification \\
 Processing Timeout & Operation timeout & Request cancellation, retry option \\
 Network Connectivity & HTTP error codes & Offline mode, cached results \\
-API Rate Limiting & HTTP 429 responses & Request queuing, backoff strategy \\
 \bottomrule
 \end{tabular}}
 \end{table}
