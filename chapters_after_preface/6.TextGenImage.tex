@@ -1,18 +1,18 @@
 \chapter{Text-Driven Image Generation Implementation}
 
-This chapter presents the implementation and evaluation of the text-driven image generation module, which transforms optimized prompts from Chapter 5 into high-quality visual content using the FLUX diffusion model. The system processes user-selected image files, extracts and enhances textual descriptions, and generates corresponding images through the Black Forest Labs API integration.
+This chapter presents the implementation and evaluation of the text-driven image generation module, which transforms optimized prompts from Chapter 5 into high-quality visual content using the FLUX 1.1 Pro Ultra diffusion model. The system processes user-selected image files, extracts and enhances textual descriptions, and generates corresponding images through the Black Forest Labs API integration.
 
 The implementation demonstrates practical application of state-of-the-art diffusion models in a desktop environment, focusing on the complete workflow from prompt processing to final image synthesis. The architecture emphasizes performance optimization, error resilience, and user experience quality while maintaining seamless integration with the existing prompt optimization infrastructure.
 
-\section{FLUX Diffusion Model Integration}
+\section{FLUX 1.1 Pro Ultra Model Integration}
 
-\subsection{FLUX.1 Architecture and Implementation}
+\subsection{FLUX 1.1 Pro Ultra Architecture and Implementation}
 
-The system utilizes FLUX.1-pro, a cutting-edge text-to-image diffusion model developed by Black Forest Labs, which represents significant advances in prompt adherence and visual quality. The model employs flow matching techniques combined with hybrid multimodal transformers, enabling exceptional understanding of complex textual descriptions and generation of semantically accurate images \cite{zhang2024flux, esser2024flux}.
+The system utilizes FLUX 1.1 Pro Ultra, a cutting-edge text-to-image diffusion model developed by Black Forest Labs, which represents significant advances in prompt adherence and visual quality. The model employs flow matching techniques combined with hybrid multimodal transformers, enabling exceptional understanding of complex textual descriptions and generation of semantically accurate images \cite{zhang2024flux, esser2024flux}.
 
-FLUX.1 incorporates several architectural innovations that distinguish it from traditional diffusion models:
+FLUX 1.1 Pro Ultra incorporates several architectural innovations that distinguish it from traditional diffusion models:
 
-\textbf{Flow Matching Framework}: Unlike conventional diffusion processes, FLUX uses flow matching for more direct optimization of the generation process, resulting in improved training stability and inference efficiency \cite{liu2023flow}.
+\textbf{Flow Matching Framework}: Unlike conventional diffusion processes, FLUX 1.1 Pro Ultra uses flow matching for more direct optimization of the generation process, resulting in improved training stability and inference efficiency \cite{liu2023flow}.
 
 \textbf{Hybrid Architecture}: The model combines multimodal and parallel diffusion transformer blocks scaled to 12 billion parameters, with only 3.6 billion parameters active per token through mixture-of-experts architecture.
 
@@ -20,7 +20,7 @@ FLUX.1 incorporates several architectural innovations that distinguish it from t
 
 \begin{table}[H]
 \centering
-\caption{FLUX.1-pro Technical Specifications}
+\caption{FLUX 1.1 Pro Ultra Technical Specifications}
 \label{tab:flux_technical_specs}
 \adjustbox{max width=\textwidth,center}
 {\begin{tabular}{ll}
@@ -45,7 +45,7 @@ Safety Filtering & 5-level configurable system \\
 
 The image generation service implements a sophisticated architecture for managing API communication with the Black Forest Labs platform. The design follows asynchronous patterns optimized for diffusion model inference latencies while maintaining responsive user interaction.
 
-\begin{lstlisting}[language=C,basicstyle=\footnotesize\ttfamily,frame=single,breaklines=true,columns=flexible,caption={FLUX API Service Implementation},label={lst:flux_api_service}]
+\begin{lstlisting}[language=C,basicstyle=\footnotesize\ttfamily,frame=single,breaklines=true,columns=flexible,caption={FLUX 1.1 Pro Ultra API Service Implementation},label={lst:flux_api_service}]
 @interface SLImageGenerationService : NSObject
 
 + (instancetype)shared;
@@ -69,7 +69,7 @@ The image generation service implements a sophisticated architecture for managin
 The service architecture implements a three-phase processing model:
 
 \begin{enumerate}
-    \item \textbf{Request Submission}: Structured prompt data is submitted to the FLUX.1-pro endpoint with generation parameters
+    \item \textbf{Request Submission}: Structured prompt data is submitted to the FLUX 1.1 Pro Ultra endpoint with generation parameters
     \item \textbf{Asynchronous Polling}: The system polls for generation completion using the returned request identifier
     \item \textbf{Result Retrieval}: Generated images are downloaded and processed for application display
 \end{enumerate}
@@ -80,7 +80,7 @@ The API integration supports comprehensive configuration options that enable fin
 
 \begin{table}[H]
 \centering
-\caption{FLUX API Request Parameters and Configuration Options}
+\caption{FLUX 1.1 Pro Ultra API Request Parameters and Configuration Options}
 \label{tab:flux_api_parameters}
 \adjustbox{max width=\textwidth,center}
 {\begin{tabular}{lll}
@@ -156,7 +156,7 @@ The main generation workflow integrates all system components to provide seamles
 
 \subsection{Polling Architecture for Diffusion Models}
 
-FLUX diffusion models require significant computational time for high-quality generation, necessitating an asynchronous polling architecture that maintains user experience quality while accommodating variable inference times.
+FLUX 1.1 Pro Ultra diffusion models require significant computational time for high-quality generation, necessitating an asynchronous polling architecture that maintains user experience quality while accommodating variable inference times.
 
 \begin{lstlisting}[language=C,basicstyle=\footnotesize\ttfamily,frame=single,breaklines=true,columns=flexible,caption={Asynchronous Polling Implementation},label={lst:polling_implementation}]
 - (void)pollForResultWithRequestId:(NSString *)requestId
@@ -231,7 +231,7 @@ The image generation system demonstrates consistent performance characteristics 
 \midrule
 API Request Submission & 1.2 sec & 2.1 sec & 99.2\% & Network I/O \\
 Queue Processing & 3.8 sec & 8.4 sec & 98.7\% & External Service \\
-Image Generation (FLUX) & 16.3 sec & 24.7 sec & 96.8\% & External GPU Cluster \\
+Image Generation (FLUX 1.1 Pro Ultra) & 16.3 sec & 24.7 sec & 96.8\% & External GPU Cluster \\
 Result Download & 2.4 sec & 4.1 sec & 99.5\% & Network I/O \\
 Image Processing & 0.6 sec & 1.0 sec & 99.8\% & Local CPU \\
 \midrule
@@ -351,7 +351,7 @@ Style Consistency & 8.0/10 & 8.4/10 & Style parameter adherence \\
 
 \subsection{Aspect Ratio and Composition Control}
 
-The system provides comprehensive control over image composition and aspect ratios, leveraging FLUX.1's native support for diverse output formats:
+The system provides comprehensive control over image composition and aspect ratios, leveraging FLUX 1.1 Pro Ultra's native support for diverse output formats:
 
 \begin{table}[H]
 \centering
@@ -397,7 +397,7 @@ The image generation system seamlessly integrates with the style management fram
         [finalPrompt appendString:@", creative composition, artistic interpretation"];
     }
     
-    // Add technical parameters for FLUX optimization
+    // Add technical parameters for FLUX 1.1 Pro Ultra optimization
     [finalPrompt appendString:@", high resolution, photorealistic rendering"];
     
     return [finalPrompt copy];
@@ -408,12 +408,12 @@ The image generation system seamlessly integrates with the style management fram
 
 \section{Conclusion}
 
-This chapter has presented a comprehensive implementation of text-driven image generation using the FLUX diffusion model through the Black Forest Labs API. The system successfully demonstrates high-quality image synthesis with exceptional prompt adherence (9.1/10) and competitive generation times (24.3 seconds average).
+This chapter has presented a comprehensive implementation of text-driven image generation using the FLUX 1.1 Pro Ultra diffusion model through the Black Forest Labs API. The system successfully demonstrates high-quality image synthesis with exceptional prompt adherence (9.1/10) and competitive generation times (24.3 seconds average).
 
 Key technical achievements include the development of an asynchronous polling architecture optimized for diffusion model latencies, comprehensive error handling with intelligent retry mechanisms, and multi-level caching strategies that improve performance and reduce API costs. The integration with the prompt optimization system from Chapter 5 creates a seamless pipeline from text extraction to final image generation.
 
 The system's modular architecture ensures maintainability and extensibility while providing robust quality control and content safety mechanisms. Performance evaluation demonstrates superior results compared to alternative text-to-image generation approaches, validating the design decisions and implementation strategies.
 
-The successful deployment of FLUX.1-pro through API integration showcases the practical viability of incorporating state-of-the-art diffusion models into desktop applications, providing users with access to cutting-edge image generation capabilities while maintaining system reliability and user experience quality \cite{wang2024neural, chen2024multimodal}.
+The successful deployment of FLUX 1.1 Pro Ultra through API integration showcases the practical viability of incorporating state-of-the-art diffusion models into desktop applications, providing users with access to cutting-edge image generation capabilities while maintaining system reliability and user experience quality \cite{wang2024neural, chen2024multimodal}.
 
 This implementation provides a solid foundation for advanced image generation applications and demonstrates that sophisticated AI capabilities can be effectively integrated into practical software systems while maintaining high standards for performance, quality, and user satisfaction.

@@ -1,6 +1,6 @@
 \chapter{Background}
 
-Recent advancements in Artificial Intelligence have greatly improved text recognition, natural language processing, and image generation. OCR has transitioned from traditional rule-based methods to deep learning-driven approaches, with Tesseract emerging as one of the most widely used open-source OCR engines. Tesseract’s evolution, incorporating machine learning techniques, has significantly enhanced text extraction accuracy across diverse applications. Large language models (LLMs) like GPT have further revolutionized text generation and understanding, while generative models such as FLUX are pushing the boundaries of image synthesis. This chapter explores these technologies, their development, and their real-world applications.
+Recent advancements in Artificial Intelligence have greatly improved text recognition, natural language processing, and image generation. OCR has transitioned from traditional rule-based methods to deep learning-driven approaches, with Tesseract emerging as one of the most widely used open-source OCR engines. Tesseract’s evolution, incorporating machine learning techniques, has significantly enhanced text extraction accuracy across diverse applications. Large language models (LLMs), including the open-weight gpt-oss series (e.g., gpt-oss-20b), have further revolutionized text generation and understanding, while generative models such as FLUX are pushing the boundaries of image synthesis. This chapter explores these technologies, their development, and their real-world applications.
 
 
 \section{OCR}
@@ -63,71 +63,45 @@ Future advancements in OCR, including real-time processing, multilingual recogni
 
 
 
-\section{GPT and Large Language Models}
+\section{gpt-oss-20b and Large Language Models}
 
-GPT is a state-of-the-art NLP model developed by OpenAI. It is designed to generate human-like text responses by leveraging large-scale language modeling and deep learning techniques.
+gpt-oss-20b is an open-weight large language model released by OpenAI as part of the gpt-oss series, alongside the larger gpt-oss-120b. With roughly 21 billion parameters in a decoder-only Transformer with mixture-of-experts (MoE) routing (about 3.6B active parameters per token), it targets lower-latency and local or specialized deployments under a permissive Apache-2.0 license \cite{openai2025gptoss}. The model is optimized for reasoning and agentic use cases, supports function calling and structured outputs, and can be served efficiently on commodity GPUs when quantized.
 
-\subsection{Architecture of GPT Models}
+\subsection{Architecture of gpt-oss-20b}
 
-GPT models are built upon the Transformer architecture, which was introduced in the paper "Attention Is All You Need" by Vaswani et al. The transformer architecture relies on the self-attention mechanism to capture dependencies across different parts of the input text.
+gpt-oss-20b follows a decoder-only Transformer design augmented with mixture-of-experts routing to improve throughput and reduce the active compute per token. Input text is first converted into token embeddings, with positional information injected to preserve order for the attention mechanism. Stacked self-attention layers with multiple heads capture long-range dependencies and contextual interactions across the sequence, while position-wise feed-forward networks increase representational capacity. Residual connections and normalization layers stabilize optimization and enable deeper networks. The MoE router then selects a small subset of experts per token, yielding approximately 3.6B active parameters at inference while maintaining a total parameter budget near 21B, thereby improving latency–quality trade-offs in practical deployments. For inference-time prompting, the series recommends a structured “Harmony” response format that standardizes function calling and structured outputs \cite{openai2025gptoss}.
 
-The architecture of GPT models consists of the following key components:
+\subsection{Pre-training, Alignment, and Adaptation}
 
-\begin{itemize}
-    \item \textbf{Token Embeddings:} Inputs are tokenized and represented as numerical vectors.
-    \item \textbf{Positional Encodings:} Since transformers do not inherently capture sequential information, positional encodings are added to represent token order.
-    \item \textbf{Multi-Head Attention:} Multiple attention heads allow the model to focus on different parts of the input simultaneously.
-    \item \textbf{Feedforward Neural Networks:} Fully connected layers that transform the attention outputs into meaningful representations.
-    \item \textbf{Layer Normalization and Residual Connections:} These techniques facilitate stable training and deeper networks.
-\end{itemize}
+The model is pre-trained via causal next-token prediction on diverse text corpora to acquire broad linguistic competence and reasoning behavior. Subsequent alignment employs supervised fine-tuning and human feedback to shape helpfulness, safety, and adherence to instructions while preserving tool-use capabilities. In deployment, configurable reasoning effort allows practitioners to select low-, medium-, or high-effort decoding profiles to balance latency against reasoning depth. Furthermore, post-training MXFP4 quantization of MoE weights enables gpt-oss-20b to operate within approximately 16GB of memory without significant loss in quality, facilitating local or on-premise serving. Because the weights are openly released under a permissive license, the model can be further adapted through supervised fine-tuning for domain-specific tasks, and prompts should follow the Harmony chat template to ensure robust function calling and structured outputs \cite{openai2025gptoss}.
 
-\subsection{Training and Fine-Tuning}
+\subsection{Capabilities and Applications}
 
-GPT models are pre-trained on diverse text corpora using unsupervised learning techniques such as next-word prediction and masked language modeling. The pre-training phase enables the model to learn general linguistic patterns, while fine-tuning on domain-specific data allows for specialization.
-
-Fine-tuning strategies include:
-
-\begin{itemize}
-    \item Supervised fine-tuning on labeled datasets.
-    \item Reinforcement Learning with Human Feedback (RLHF), where human reviewers provide feedback to refine model outputs.
-    \item Prompt engineering to guide the model towards generating desirable responses.
-\end{itemize}
-
-\subsection{Capabilities and Applications of GPT}
-
-GPT exhibits remarkable capabilities in various NLP tasks, including:
-
-\begin{itemize}
-    \item Text generation for creative writing, content creation, and conversational agents.
-    \item Code generation and explanation to assist developers in programming tasks.
-    \item Summarization and paraphrasing to distill information efficiently.
-    \item Knowledge retrieval and question answering across diverse domains.
-    \item Language translation and adaptation for multilingual applications.
-\end{itemize}
+In empirical use, gpt-oss-20b demonstrates strong performance in text generation and editing, code completion and explanation, and the summarization and question answering of long-form content. Through structured outputs and function calling, it integrates naturally with external tools, retrieval systems, and programmatic APIs to support agentic workflows. The MoE execution and quantization make the model attractive for local or specialized deployments where latency and memory are constrained, while fine-tuning provides a pathway to tailor the model to domain-specific requirements \cite{openai2025gptoss}.
 
 
 
 
-\section{Background on FLUX Model}
+\section{Background on FLUX 1.1 Pro Ultra Model}
 
-\subsection{Introduction to FLUX}
-FLUX is an advanced text-to-image generation model developed by Black Forest Labs, which represents a significant evolution in the field of generative artificial intelligence. The model leverages a hybrid architecture combining multimodal and parallel diffusion transformer blocks, enabling it to achieve state-of-the-art performance in terms of image quality, prompt adherence, and generation speed. As of its latest version, FLUX 1.1 Pro, the model scales to an impressive 12 billion parameters, significantly surpassing earlier models such as Stable Diffusion XL.
+\subsection{Introduction to FLUX 1.1 Pro Ultra}
+FLUX 1.1 Pro Ultra is an advanced text-to-image generation model developed by Black Forest Labs, which represents a significant evolution in the field of generative artificial intelligence. The model leverages a hybrid architecture combining multimodal and parallel diffusion transformer blocks, enabling it to achieve state-of-the-art performance in terms of image quality, prompt adherence, and generation speed. FLUX 1.1 Pro Ultra scales to an impressive 12 billion parameters, significantly surpassing earlier models such as Stable Diffusion XL.
 
 \subsection{Historical Development}
-Black Forest Labs, founded in 2024 by former Stability AI researchers, pioneered the development of FLUX with the goal of improving image generation quality and efficiency. The team, composed of researchers from Ludwig Maximilian University of Munich, previously contributed to the development of Stable Diffusion, a widely used text-to-image model. Black Forest Labs introduced FLUX in August 2024.
+Black Forest Labs, founded in 2024 by former Stability AI researchers, pioneered the development of FLUX 1.1 Pro Ultra with the goal of improving image generation quality and efficiency. The team, composed of researchers from Ludwig Maximilian University of Munich, previously contributed to the development of Stable Diffusion, a widely used text-to-image model. Black Forest Labs introduced FLUX 1.1 Pro Ultra in August 2024.
 
 \subsection{Core Architecture}
-FLUX is built upon a unique combination of multimodal transformers and diffusion-based generative processes. The core components of the architecture include:
+FLUX 1.1 Pro Ultra is built upon a unique combination of multimodal transformers and diffusion-based generative processes. The core components of the architecture include:
 
 \begin{itemize}
-    \item \textbf{Hybrid Model Design:} FLUX integrates both diffusion and flow-matching techniques to improve sample efficiency and image coherence. Diffusion models operate by progressively refining noise into a coherent image, while flow matching optimizes the latent space trajectory for better guidance.
-    \item \textbf{Parallel Attention Layers:} Unlike traditional diffusion models, FLUX employs parallelized attention mechanisms, which contribute to increased computational efficiency and faster inference times.
+    \item \textbf{Hybrid Model Design:} FLUX 1.1 Pro Ultra integrates both diffusion and flow-matching techniques to improve sample efficiency and image coherence. Diffusion models operate by progressively refining noise into a coherent image, while flow matching optimizes the latent space trajectory for better guidance.
+    \item \textbf{Parallel Attention Layers:} Unlike traditional diffusion models, FLUX 1.1 Pro Ultra employs parallelized attention mechanisms, which contribute to increased computational efficiency and faster inference times.
     \item \textbf{Rotary Positional Embeddings (RoPE):} The incorporation of RoPE improves spatial understanding within images, enabling the model to maintain high fidelity in complex compositions.
     \item \textbf{Multimodal Inputs:} The model takes advantage of textual and visual embeddings to enhance its prompt comprehension and visual output quality.
 \end{itemize}
 
 \subsection{Training Methodology}
-The training process of FLUX involves several cutting-edge techniques to enhance model performance:
+The training process of FLUX 1.1 Pro Ultra involves several cutting-edge techniques to enhance model performance:
 
 \begin{itemize}
     \item \textbf{Data Augmentation:} Extensive data augmentation strategies, including synthetic captioning inspired by OpenAI's research, have been employed to enrich the model's training dataset.
@@ -136,9 +110,9 @@ The training process of FLUX involves several cutting-edge techniques to enhance
 \end{itemize}
 
 \subsection{Performance Enhancements}
-FLUX 1.1 Pro introduces several key improvements over previous diffusion models:
+FLUX 1.1 Pro Ultra introduces several key improvements over previous diffusion models:
 
 \begin{itemize}
     \item \textbf{Higher Resolution Generation:} The Ultra mode enables the generation of images with resolutions up to 4 megapixels without sacrificing speed.
-    \item \textbf{Prompt Fidelity:} Compared to competitors like Midjourney V6 and DALL-E 3, FLUX excels in maintaining a high degree of prompt fidelity, ensuring accurate visual representations.
+    \item \textbf{Prompt Fidelity:} Compared to competitors like Midjourney V6 and DALL-E 3, FLUX 1.1 Pro Ultra excels in maintaining a high degree of prompt fidelity, ensuring accurate visual representations.
 \end{itemize}

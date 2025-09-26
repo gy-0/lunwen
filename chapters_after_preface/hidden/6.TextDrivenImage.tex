@@ -1,11 +1,11 @@
 \chapter{Text-Driven Image Generation}
 
-This chapter presents the text-driven image generation component that converts optimized textual prompts into high-quality images through the FLUX family of diffusion models. Building upon Chapter 5, where OCR text is transformed into style-aware prompts using a locally deployed GPT-OSS 20B, we describe how these prompts are consumed by the generation subsystem, how the macOS app exposes controls in the user interface, and how the end-to-end pipeline is orchestrated. We also provide IEEE-style figures, a flowchart of the data path, and tables of parameters and ablations.
+This chapter presents the text-driven image generation component that converts optimized textual prompts into high-quality images through the FLUX 1.1 Pro Ultra diffusion model. Building upon Chapter 5, where OCR text is transformed into style-aware prompts using a locally deployed GPT-OSS 20B, we describe how these prompts are consumed by the generation subsystem, how the macOS app exposes controls in the user interface, and how the end-to-end pipeline is orchestrated. We also provide IEEE-style figures, a flowchart of the data path, and tables of parameters and ablations.
 
 \section{System Overview}
 The generation subsystem is implemented in Objective-C/Cocoa and integrated into the Screenshot-OCR app. The core responsibilities are:
 \begin{itemize}
-    \item Model Invocation: Submit the optimized prompt and optional parameters (e.g., aspect ratio) to the FLUX image generation endpoint and retrieve the resulting image.
+    \item Model Invocation: Submit the optimized prompt and optional parameters (e.g., aspect ratio) to the FLUX 1.1 Pro Ultra image generation endpoint and retrieve the resulting image.
     \item User Interaction: Expose controls for style selection, aspect ratio, and safety tolerance; display generated images; provide copy/save actions from the UI.
     \item Reliability and UX: Handle errors, rate limiting, and in-progress feedback while keeping the interface responsive via asynchronous requests and polling.
 \end{itemize}
@@ -25,7 +25,7 @@ Figure~\ref{fig:gen-flow} outlines the full path from OCR text to generated imag
 \node[io] (img) {Input Image};
 \node[proc, right=of img] (ocr) {OCR +\newline Preprocessing};
 \node[box, right=of ocr] (prompt) {Prompt Optimization\newline (GPT-OSS 20B)};
-\node[proc, right=of prompt] (gen) {FLUX Generation\newline (Diffusion)};
+\node[proc, right=of prompt] (gen) {FLUX 1.1 Pro Ultra\newline Generation};
 \node[io, right=of gen] (out) {Generated Image};
 
 \draw (img) -- (ocr);
@@ -77,7 +77,7 @@ Figure~\ref{fig:ui-layout} illustrates the app layout as implemented in the cont
 \end{figure}
 
 \section{Generation Backend and API Integration}
-The class \texttt{SLImageGenerationService} encapsulates the request lifecycle: request creation, submission, polling, and image download. The service reads the API key from \texttt{BFL\_API\_KEY} and targets the FLUX endpoint \texttt{/flux-pro-1.1-ultra}.
+The class \texttt{SLImageGenerationService} encapsulates the request lifecycle: request creation, submission, polling, and image download. The service reads the API key from \texttt{BFL\_API\_KEY} and targets the FLUX 1.1 Pro Ultra endpoint \texttt{/flux-pro-1.1-ultra}.
 
 \subsection{Request Construction}
 Prompts are extended by the controller to reflect style, quality, and creativity (see Section~\ref{sec:style-mapping}). Requests include output format, safety tolerance, and optional aspect ratio.
@@ -108,7 +108,7 @@ if ([status isEqualToString:@"Ready"]) {
 \end{lstlisting}
 
 \section{Prompt-to-Style Mapping}\label{sec:style-mapping}
-UI style presets map user intent to generation controls and textual modifiers. The controller builds the final prompt by appending quality/creativity descriptors and technical tags compatible with FLUX while keeping the style prompt concise.
+UI style presets map user intent to generation controls and textual modifiers. The controller builds the final prompt by appending quality/creativity descriptors and technical tags compatible with FLUX 1.1 Pro Ultra while keeping the style prompt concise.
 
 \begin{table}[H]
 \centering
@@ -163,5 +163,5 @@ The following summarizes how the code implements the above:
 \end{itemize}
 
 \section{Conclusions}
-With a style-aware prompt from Chapter~5 and the generation subsystem described here, the application delivers an integrated ``text $\rightarrow$ image'' experience on macOS. Style presets give users a concise control surface, while aspect ratio and safety parameters allow task-specific refinement. The service abstraction cleanly separates UI from network orchestration and can be extended to support additional FLUX endpoints or model variants.
+With a style-aware prompt from Chapter~5 and the generation subsystem described here, the application delivers an integrated ``text $\rightarrow$ image'' experience on macOS. Style presets give users a concise control surface, while aspect ratio and safety parameters allow task-specific refinement. The service abstraction cleanly separates UI from network orchestration and can be extended to support additional FLUX 1.1 Pro Ultra endpoints or model variants.
 

@@ -179,13 +179,13 @@ Table \ref{tab:prompt-examples} demonstrates the transformation quality through 
 \section{Image Generation Results}
 \label{sec:image-generation}
 
-\subsection{FLUX API Performance Metrics}
+\subsection{FLUX 1.1 Pro Ultra API Performance Metrics}
 
 The integration with FLUX Pro 1.1 Ultra demonstrated consistent high-quality image generation with the following performance characteristics:
 
 \begin{table}[h!]
 \centering
-\caption{FLUX Image Generation Performance Metrics}
+\caption{FLUX 1.1 Pro Ultra Image Generation Performance Metrics}
 \label{tab:flux-performance}
 \begin{tabular}{|l|c|c|c|}
 \hline
@@ -268,7 +268,7 @@ Preprocessing & 287 & 42 & 2.1\% & Medium \\
 OCR Processing & 456 & 61 & 3.3\% & Medium \\
 Prompt Optimization & 342 & 45 & 2.5\% & Low \\
 API Request Preparation & 18 & 3 & 0.1\% & Low \\
-Image Generation (FLUX) & 12,150 & 1,560 & 88.2\% & High (API-dependent) \\
+Image Generation (FLUX 1.1 Pro Ultra) & 12,150 & 1,560 & 88.2\% & High (API-dependent) \\
 Result Processing & 124 & 21 & 0.9\% & Low \\
 UI Update & 356 & 52 & 2.6\% & Medium \\
 \textbf{Total} & \textbf{13,776} & \textbf{1,628} & \textbf{100.0\%} & -- \\
@@ -541,7 +541,7 @@ The experimental results validate several key aspects of our integrated system:
 Despite the positive results, several limitations were identified:
 
 \begin{enumerate}
-    \item \textbf{API Dependency:} The reliance on FLUX API for image generation introduces latency (88.2\% of total processing time) and potential availability issues.
+    \item \textbf{API Dependency:} The reliance on FLUX 1.1 Pro Ultra API for image generation introduces latency (88.2\% of total processing time) and potential availability issues.
     
     \item \textbf{Language Model Size:} The 32B parameter DeepSeek model requires significant memory (18.7 GB), limiting deployment on resource-constrained devices.
     

@@ -16,7 +16,7 @@ The text-driven image generation system follows these main steps:
 \section{FLUX Model}
 FLUX is a state-of-the-art diffusion-based image generation model known for its ability to produce detailed and semantically accurate images from textual prompts. The model operates on the principle of iterative refinement, transforming random noise into coherent images guided by the input text.
 
-\subsection{Advantages of FLUX}
+\subsection{Advantages of FLUX 1.1 Pro Ultra}
 The FLUX model was chosen for this project due to the following reasons:
 \begin{itemize}
     \item \textbf{High Fidelity:} FLUX generates images with exceptional resolution and detail.
@@ -25,7 +25,7 @@ The FLUX model was chosen for this project due to the following reasons:
 \end{itemize}
 
 \subsection{Integration with the System}
-To integrate FLUX, the system was designed to generate prompts in a structured format that the model could interpret effectively. This involved specifying attributes such as style, color scheme, and object details in the prompt generation step.
+To integrate FLUX 1.1 Pro Ultra, the system was designed to generate prompts in a structured format that the model could interpret effectively. This involved specifying attributes such as style, color scheme, and object details in the prompt generation step.
 
 \section{Prompt Optimization Using ChatGPT}
 ChatGPT plays a critical role in bridging the gap between raw OCR output and FLUX input requirements. The optimization process includes:
@@ -47,7 +47,7 @@ The implementation leverages Swift and foundational macOS frameworks to streamli
     let ocrText = performOCR(on: inputImage)
     let chatGPTInput = optimizeTextUsingChatGPT(ocrText)
     \end{verbatim}
-    \item \textbf{Text Optimization:} ChatGPT refines the text via API calls, ensuring it adheres to the format required by FLUX.
+    \item \textbf{Text Optimization:} ChatGPT refines the text via API calls, ensuring it adheres to the format required by FLUX 1.1 Pro Ultra.
     \begin{verbatim}
     func optimizeTextUsingChatGPT(_ text: String) async throws -> String {
         let refinedText = try await chatGPTService.refine(text)
@@ -70,7 +70,7 @@ The system was evaluated based on:
     \item \textbf{Visual Quality:} Metrics such as resolution, coherence, and aesthetic appeal were analyzed.
     \item \textbf{Processing Time:} The end-to-end workflow was benchmarked for efficiency.
 \end{itemize}
-Preliminary results demonstrate the system's ability to generate highly relevant and visually pleasing images, validating the integration of ChatGPT and FLUX.
+Preliminary results demonstrate the system's ability to generate highly relevant and visually pleasing images, validating the integration of ChatGPT and FLUX 1.1 Pro Ultra.
 
 \section{Conclusion}
-This implementation showcases the potential of combining advanced NLP techniques with cutting-edge image generation models. By leveraging FLUX's capabilities and ChatGPT's optimization prowess, the system achieves an effective pipeline for translating textual inputs into compelling visual content. Future work could explore fine-tuning the FLUX model for domain-specific applications and enhancing prompt refinement through additional contextual analysis.
+This implementation showcases the potential of combining advanced NLP techniques with cutting-edge image generation models. By leveraging FLUX 1.1 Pro Ultra's capabilities and ChatGPT's optimization prowess, the system achieves an effective pipeline for translating textual inputs into compelling visual content. Future work could explore fine-tuning the FLUX 1.1 Pro Ultra model for domain-specific applications and enhancing prompt refinement through additional contextual analysis.

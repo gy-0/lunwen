@@ -2,9 +2,20 @@
   "permissions": {
     "allow": [
       "Read(//Users/gaoyuan/Tesseract-macOS-master/Screenshot-OCR/**)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(for f in 1_introduction.tex 2.Background.tex 3.SystemOverview.tex 4.OCR.tex 5.PromptOptimization.tex)",
+      "Bash(do echo \"=== $f ===\")",
+      "Bash(grep:*)",
+      "Bash(done)",
+      "Bash(if [ -f \"$f\" ])",
+      "Bash(then grep -n \"FLUX[^[:space:]]\" \"$f\")",
+      "Bash(fi)",
+      "Bash(find:*)"
     ],
     "deny": [],
-    "ask": []
+    "ask": [],
+    "additionalDirectories": [
+      "/Users/gaoyuan/Tesseract-macOS-master/Screenshot-OCR"
+    ]
   }
 }
