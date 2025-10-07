@@ -10,12 +10,15 @@
       "Bash(if [ -f \"$f\" ])",
       "Bash(then grep -n \"FLUX[^[:space:]]\" \"$f\")",
       "Bash(fi)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(claude --version)",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": [],
     "additionalDirectories": [
-      "/Users/gaoyuan/Tesseract-macOS-master/Screenshot-OCR"
+      "/Users/gaoyuan/Tesseract-macOS-master/Screenshot-OCR",
+      "/Users/gaoyuan/Tesseract-macOS-master"
     ]
   }
 }
