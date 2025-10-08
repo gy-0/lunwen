@@ -91,10 +91,11 @@ The thesis uses the `minted` package for code highlighting, which requires:
 - **Page Numbers:** Follow McMaster SGS guidelines
 
 ### Citation Style
-- Uses `natbib` package with numerical citations
-- Bibliography style: `abbrvnat`
-- Multiple bibliography files for organization
+- Uses `natbib` package with numerical citations in IEEE format
+- Bibliography style: `IEEEtran` (IEEE Transactions format)
+- Numerical citations in square brackets [1], [2], etc.
 - Recent citations include 2024-2025 publications on OCR and AI
+- All bibliography entries follow IEEE standards
 
 ## Research Focus Areas
 
