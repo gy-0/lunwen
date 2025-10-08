@@ -148,14 +148,14 @@
 
 %--------------------Bibliography-------------------------
 % The bibliography is set up to allow for multiple bib files
-%\bibliographystyle{natbib} 
-% https://www.overleaf.com/learn/latex/Natbib_citation_styles
-% https://www.overleaf.com/learn/latex/Natbib_bibliography_styles
+% IEEE citation style uses numerical citations in square brackets [1], [2], etc.
+% Configured with natbib package for compatibility with IEEE standards
 
-% check which bibliography style your department prefers
-\bibliographystyle{abbrvnat}
-%\setcitestyle{round} % to have parantheses around the in-text citation
-% if you want to add number you can do so using \usepackage[sort, numbers]{natbib}
+\bibliographystyle{IEEEtran}
+% IEEEtran style provides IEEE-compliant bibliography formatting:
+% - Numerical citations in order of appearance
+% - Abbreviated journal names per IEEE standards
+% - Proper formatting for conference proceedings, journals, and technical reports
 \bibliography{references/references_first, references/references_another}
 
 \label{NumDocumentPages}
